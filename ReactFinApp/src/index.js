@@ -85,6 +85,7 @@ class CapitalAssetPricingModel extends Component
 			  </div>
 			  <div id="wacc"></div>
 			  <div id="val"></div>
+			  <h3> Capital Asset Pricing Model </h3>
 			  <p> risk free rate </p><input type="text" value={this.state.value} onChange={this.handleRfChange} />
 			  <p> market risk premium </p> <input type="text" value={this.state.value} onChange={this.handleMrpChange} />
 			  <p> beta </p> <input type="text" value={this.state.value} onChange={this.handleBetaChange} />
@@ -153,7 +154,7 @@ class WeightedAverageCostOfCapital extends Component
 	{
 		return (
 			<div>
-			  <h3> wacc </h3>
+			  <h3> Weighted Average Cost of Capital </h3>
 			  <p> Equity </p><input type="text" value={this.state.value} onChange={this.handleEquityChange} />
 			  <p> Debt </p> <input type="text" value={this.state.value} onChange={this.handleDebtChange} />
 			  <p> Return on Equity </p> <input type="text" value={this.state.value} onChange={this.handleReChange} />
@@ -187,7 +188,7 @@ class BlackScholes extends Component
 		this.BlackScholesCallPrice = this.BlackScholesCallPrice.bind(this);
 
 		// eventHandler binding
-		this.handleStockChange = this.handleStockChange.bind(this);
+		this.handleSpotChange = this.handleSpotChange.bind(this);
 		this.handleStrikeChange = this.handleStrikeChange.bind(this);
 		this.handleTimeChange = this.handleTimeChange.bind(this);
 		this.handleRfChange = this.handleRfChange.bind(this);
@@ -202,6 +203,7 @@ class BlackScholes extends Component
 		var _t = parseFloat(this.state.t);
 
 		var CallPremium = _S * this.normalCdf(this.d1()) - this.normalCdf(this.d2()) * _K * Math.pow(Math.E,(-1 * _r * _t));
+		return CallPremium;
 	}
 
 	normalCdf(X)
@@ -218,13 +220,14 @@ class BlackScholes extends Component
 
 	d1()
 	{
-		var _S = parseFloat(this.state.s);
-		var _K = parseFloat(this.state.k);
+		var _S = parseFloat(this.state.S);
+		var _K = parseFloat(this.state.K);
 		var _r = parseFloat(this.state.r);
 		var _t = parseFloat(this.state.t);
-		var _s = parseFloat(this.state.s);
+		var _sigma = parseFloat(this.state.sigma);
 
-		return (Math.log(_S / _K) + (_r + (Math.pow(_s, 2) / 2)) * _t)/(Math.sqrt(_t) * _s);
+		return (Math.log(_S / _K) + (_r + (Math.pow(_sigma, 2) / 2)) * _t)/(Math.sqrt(_t) * _sigma);
+
 	}
 
 	d2()
@@ -234,7 +237,7 @@ class BlackScholes extends Component
 		return this.d1() - _sigma * Math.sqrt(_t);
 	}
 
-	handleStockChange(event)
+	handleSpotChange(event)
 	{
 		this.setState({S: event.target.value});
 	}
@@ -263,14 +266,14 @@ class BlackScholes extends Component
 	{
 		return (
 			<div>
-				<h3> Black Scholes Pricing Model </h3>
+				<h3> Black-Scholes Pricing Model </h3>
 				<p>  </p>
-				{/*
-					Make users input values here
-				*/}
-				{/*
-					Output d1, d2 and B-S Call Price
-				*/}
+			  	<p> Spot Price </p> <input type="text" value={this.state.value} onChange={this.handleSpotChange} />
+			  	<p> Strike Price </p><input type="text" value={this.state.value} onChange={this.handleStrikeChange} />
+			  	<p> Variance </p> <input type="text" value={this.state.value} onChange={this.handleSigmaChange} />
+			  	<p> Time to expiry </p> <input type="text" value={this.state.value} onChange={this.handleTimeChange} />
+				<p> Risk Free Rate </p> <input type="text" value={this.state.value} onChange={this.handleRfChange} />
+				<p> Black-Scholes Call Price: {this.BlackScholesCallPrice()} </p>
 			</div>
 		);
 	}
@@ -416,10 +419,10 @@ class StateManager extends Component
 	{
 		return (
 			<div>
-			  <p> pick one </p>
-			  <button onClick={() => this.changeState(<BlackScholes />)}>B-S Model</button>
-			  <button onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</button>
-			  <button onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</button>
+			  <h3> Functions </h3>
+			  <button className="btn btn-primary" onClick={() => this.changeState(<BlackScholes />)}>B-S Model</button>
+			  <button className="btn btn-primary" onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</button>
+			  <button className="btn btn-primary" onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</button>
 			</div>
 		);
 	}
