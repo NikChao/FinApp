@@ -52,13 +52,7 @@ class CapitalAssetPricingModel extends Component
 		var _beta = parseFloat(this.state.beta);
 		var capm = _rf + _beta * _mrp;
 
-		if (capm == NaN)
-		{
-			return "Bad input in field";
-		} else {
-			return capm;
-		}
-
+		return capm;
 	}
 
 	handleBetaChange(event)
@@ -394,15 +388,35 @@ class ProjectEvaluation extends Component
 	}
 }
 
-function manageState(state)
+/*
+	Changes which topic goes in the topic div and clears the function div
+ */
+function changeTopicState(state)
+{
+	ReactDOM.render(
+		state,
+		document.getElementById('topic'));
+	ReactDOM.render(
+		<div></div>,
+		document.getElementById('function')
+		);
+}
+
+/*
+	Changes which function goes into the function div
+ */
+function changeFunctionState(state)
 {
 	ReactDOM.render(
   		state,
-  		document.getElementById('root')
+  		document.getElementById('function')
 	);
 }
 
-class StateManager extends Component
+/*
+	2401 state manager
+ */
+class FinancialManagementStateManager extends Component
 {
 	constructor(props)
 	{
@@ -412,14 +426,41 @@ class StateManager extends Component
 
 	changeState(state)
 	{
-		manageState(state);
+		changeFunctionState(state);
 	}
 
 	render()
 	{
 		return (
 			<div>
-			  <h3> Functions </h3>
+				<h4> Financial Management Functions </h4>
+				<button className="btn btn-primary" onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</button>
+			</div>
+		);
+	}
+}
+
+/*
+	3401
+ */
+class CorpFinanceStateManager extends Component
+{
+	constructor(props)
+	{
+		super(props);
+		this.changeState = this.changeState.bind(this);
+	}
+
+	changeState(state)
+	{
+		changeFunctionState(state);
+	}
+
+	render()
+	{
+		return (
+			<div>
+			  <h4> Corporate Finance Functions </h4>
 			  <button className="btn btn-primary" onClick={() => this.changeState(<BlackScholes />)}>B-S Model</button>
 			  <button className="btn btn-primary" onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</button>
 			  <button className="btn btn-primary" onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</button>
@@ -428,7 +469,44 @@ class StateManager extends Component
 	}
 }
 
+
+
+/*
+	This class will tell the app which finance topic will go in the function state picker
+ */
+class MasterStateManager extends Component
+{
+	constructor(props)
+	{
+		super(props);
+
+		// event handler binding
+		this.changeState = this.changeState.bind(this);
+	}
+
+	changeState(state)
+	{
+		changeTopicState(state);
+	}
+
+	render()
+	{
+		return (
+			<div>
+				<h3> Finance Type </h3>
+				<button className="btn btn-primary" onClick={() => this.changeState(<FinancialManagementStateManager />)}>2401</button>
+				<button className="btn btn-primary" onClick={() => this.changeState(<CorpFinanceStateManager />)}>3401</button>
+			</div>
+		);
+	}
+}
+
 ReactDOM.render(
-	<StateManager />,
-	document.getElementById('statePicker')
+	<MasterStateManager />,
+	document.getElementById('masterStatePicker')
 );
+
+// ReactDOM.render(
+// 	<CorpFinanceStateManager />,
+// 	document.getElementById('topic')
+// 	);
