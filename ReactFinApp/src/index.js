@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 //React Materialize components
-import { Button, Icon, Dropdown, NavItem, Input } from 'react-materialize';
+import { Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
 
 import {
     presentValue,
@@ -12,13 +12,6 @@ import {
     perpetuityValue,
     perpetuityCashFlow
 } from './generalFunctions.js';
-
-// imported components
-import {
-	navbar
-} from './NavBar.js'
-
-
 
 /*
 	Each class below represents a different Financial function
@@ -87,10 +80,10 @@ class CapitalAssetPricingModel extends Component
 			  </div>
 			  <div id="wacc"></div>
 			  <div id="val"></div>
-			  <h3> Capital Asset Pricing Model </h3>
-			  <p> risk free rate </p><input type="text" value={this.state.value} onChange={this.handleRfChange} />
-			  <p> market risk premium </p> <input type="text" value={this.state.value} onChange={this.handleMrpChange} />
-			  <p> beta </p> <input type="text" value={this.state.value} onChange={this.handleBetaChange} />
+			  <h5> Capital Asset Pricing Model </h5>
+			  <Input label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
+			  <Input label="Market risk premium" value={this.state.value} onChange={this.handleMrpChange} />
+			  <Input label="Beta" value={this.state.value} onChange={this.handleBetaChange} />
 			  <p> CAPM = {this.CapitalAsset()} </p>
 			</div>
 		);
@@ -269,11 +262,11 @@ class BlackScholes extends Component
 		return (
 			<div className="center">
 				<h5> Black-Scholes Pricing Model </h5>
-			  	<Input placeholder="0" label="Spot price" value={this.state.value} onChange={this.handleSpotChange} />
-			  	<Input palceholder="0" label="Strike price" value={this.state.value} onChange={this.handleStrikeChange} />
-			  	<Input palceholder="0" label="Variance" value={this.state.value} onChange={this.handleSigmaChange} />
-			  	<Input palceholder="0" label="Time to expiry" value={this.state.value} onChange={this.handleTimeChange} />
-				<Input palceholder="0" label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
+			  	<Input label="Spot price" value={this.state.value} onChange={this.handleSpotChange} />
+			  	<Input label="Strike price" value={this.state.value} onChange={this.handleStrikeChange} />
+			  	<Input label="Variance" value={this.state.value} onChange={this.handleSigmaChange} />
+			  	<Input label="Time to expiry" value={this.state.value} onChange={this.handleTimeChange} />
+				<Input label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
 				<p> Black-Scholes Call Price: {this.BlackScholesCallPrice()} </p>
 			</div>
 		);
@@ -287,7 +280,7 @@ class PutCallParity extends Component
 	{
 		super(props);
 
-		// State
+		// Statef y
 		this.state =
 		{
 			S: "", // spot price
@@ -487,7 +480,6 @@ class MasterStateManager extends Component
 	{
 		super(props);
 
-		this.state = {topic: "Topics"};
 		// event handler binding
 		this.changeState = this.changeState.bind(this);
 	}
@@ -495,7 +487,6 @@ class MasterStateManager extends Component
 	changeState(state, topicName)
 	{
 		changeTopicState(state);
-		this.setState({topic: topicName});
 	}
 
 	render()
@@ -503,14 +494,10 @@ class MasterStateManager extends Component
 
 		return (
 			<div>
-				{navbar()}
-				<h3> Finance Type </h3>
-				<Dropdown trigger={
-					<Button>{this.state.topic}</Button>
-				}>
-					<NavItem onClick={() => this.changeState(<FinancialManagementStateManager />, 2401)}>2401</NavItem>
-					<NavItem onClick={() => this.changeState(<CorpFinanceStateManager />, 3401)}>3401</NavItem>
-				</Dropdown>
+				<Navbar brand='FinApp' right>
+					<NavItem onClick={() => this.changeState(<FinancialManagementStateManager />, 2401)}> 2401 </NavItem>
+					<NavItem onClick={() => this.changeState(<CorpFinanceStateManager />, 3401)}> 3401 </NavItem>
+				</Navbar>
 			</div>
 		);
 	}
