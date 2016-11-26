@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-//import App from './App';
+
+//React Materialize components
+import { Button, Icon, Dropdown, NavItem, Input } from 'react-materialize';
+
 import {
     presentValue,
     futureValue,
@@ -10,7 +13,12 @@ import {
     perpetuityCashFlow
 } from './generalFunctions.js';
 
-import './index.css';
+// imported components
+import {
+	navbar
+} from './NavBar.js'
+
+
 
 /*
 	Each class below represents a different Financial function
@@ -259,14 +267,13 @@ class BlackScholes extends Component
 	render()
 	{
 		return (
-			<div>
-				<h3> Black-Scholes Pricing Model </h3>
-				<p>  </p>
-			  	<p> Spot Price </p> <input type="text" value={this.state.value} onChange={this.handleSpotChange} />
-			  	<p> Strike Price </p><input type="text" value={this.state.value} onChange={this.handleStrikeChange} />
-			  	<p> Variance </p> <input type="text" value={this.state.value} onChange={this.handleSigmaChange} />
-			  	<p> Time to expiry </p> <input type="text" value={this.state.value} onChange={this.handleTimeChange} />
-				<p> Risk Free Rate </p> <input type="text" value={this.state.value} onChange={this.handleRfChange} />
+			<div className="center">
+				<h5> Black-Scholes Pricing Model </h5>
+			  	<Input placeholder="0" label="Spot price" value={this.state.value} onChange={this.handleSpotChange} />
+			  	<Input palceholder="0" label="Strike price" value={this.state.value} onChange={this.handleStrikeChange} />
+			  	<Input palceholder="0" label="Variance" value={this.state.value} onChange={this.handleSigmaChange} />
+			  	<Input palceholder="0" label="Time to expiry" value={this.state.value} onChange={this.handleTimeChange} />
+				<Input palceholder="0" label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
 				<p> Black-Scholes Call Price: {this.BlackScholesCallPrice()} </p>
 			</div>
 		);
@@ -434,7 +441,7 @@ class FinancialManagementStateManager extends Component
 		return (
 			<div>
 				<h4> Financial Management Functions </h4>
-				<button className="btn btn-primary" onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</button>
+				<Button flat className="btn btn-primary" onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
 			</div>
 		);
 	}
@@ -461,9 +468,9 @@ class CorpFinanceStateManager extends Component
 		return (
 			<div>
 			  <h4> Corporate Finance Functions </h4>
-			  <button className="btn btn-primary" onClick={() => this.changeState(<BlackScholes />)}>B-S Model</button>
-			  <button className="btn btn-primary" onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</button>
-			  <button className="btn btn-primary" onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</button>
+			  <Button flat onClick={() => this.changeState(<BlackScholes />)}>B-S Model</Button>
+			  <Button flat onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
+			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
 			</div>
 		);
 	}
@@ -480,22 +487,30 @@ class MasterStateManager extends Component
 	{
 		super(props);
 
+		this.state = {topic: "Topics"};
 		// event handler binding
 		this.changeState = this.changeState.bind(this);
 	}
 
-	changeState(state)
+	changeState(state, topicName)
 	{
 		changeTopicState(state);
+		this.setState({topic: topicName});
 	}
 
 	render()
 	{
+
 		return (
 			<div>
+				{navbar()}
 				<h3> Finance Type </h3>
-				<button className="btn btn-primary" onClick={() => this.changeState(<FinancialManagementStateManager />)}>2401</button>
-				<button className="btn btn-primary" onClick={() => this.changeState(<CorpFinanceStateManager />)}>3401</button>
+				<Dropdown trigger={
+					<Button>{this.state.topic}</Button>
+				}>
+					<NavItem onClick={() => this.changeState(<FinancialManagementStateManager />, 2401)}>2401</NavItem>
+					<NavItem onClick={() => this.changeState(<CorpFinanceStateManager />, 3401)}>3401</NavItem>
+				</Dropdown>
 			</div>
 		);
 	}
@@ -505,8 +520,3 @@ ReactDOM.render(
 	<MasterStateManager />,
 	document.getElementById('masterStatePicker')
 );
-
-// ReactDOM.render(
-// 	<CorpFinanceStateManager />,
-// 	document.getElementById('topic')
-// 	);
