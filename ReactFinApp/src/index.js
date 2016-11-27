@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 
 //React Materialize components
 import { Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
-import PutCallParity from './PutCallParity.js';
-import CapitalAssetPricingModel from './capm.js';
-import BlackScholes from './BlackScholesCallPrice.js'
-import WeightedAverageCostOfCapital from './WeightedAverageCostOfCapital.js'
-import BondPrices from './BondPrices.js';
+import PutCallParity from './Formulas/PutCallParity.js';
+import CapitalAssetPricingModel from './Formulas/CapitalAssetPricingModel.js';
+import BlackScholes from './Formulas/BlackScholesCallPrice.js'
+import WeightedAverageCostOfCapital from './Formulas/WeightedAverageCostOfCapital.js'
+import BondPrices from './Formulas/BondPrices.js';
 
 import {
     pv,
@@ -36,7 +36,7 @@ import {
     firmFCF,
     netWorkingCapital,
     increaseNWC
-} from './generalFunctions.js';
+} from './Formulas/GeneralFunctions.js';
 
 // Project class to be used by ProjectEvaluation class
 // Most likely scenario is complex projects have to be broken down into many of these

@@ -103,7 +103,6 @@ export default class BlackScholes extends Component
     {
         return (
             <div className="center">
-                <h5> Black-Scholes Pricing Model </h5>
                 <Input label="Spot price" value={this.state.value} onChange={this.handleSpotChange} />
                 <Input label="Strike price" value={this.state.value} onChange={this.handleStrikeChange} />
                 <Input label="Variance" value={this.state.value} onChange={this.handleSigmaChange} />
