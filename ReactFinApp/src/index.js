@@ -111,6 +111,60 @@ class WeightedAverageCostOfCapital extends Component
 	}
 }
 
+class BondPrices extends Component
+{
+	constructor(props)
+	{
+		super(props);
+		this.state =
+		{
+			bondPrice: "", // stock price
+			div: "", // dividends
+			rf: "" // risk free rate
+		};
+
+		this.BondPrice = this.BondPrice.bind(this);
+
+		this.handleBPChange = this.handleBPChange.bind(this);
+		this.handleDivChange = this.handleDivChange.bind(this);
+		this.handleRfChange = this.handleRfChange.bind(this);
+	}
+
+	BondPrice()
+	{
+		var _bp = parseFloat(this.state.bondPrice);
+		var _div = parseFloat(this.state.div);
+		var _rf = parseFloat(this.state.rf);
+
+		return (_bp + _div)/_rf;
+	}
+
+	handleBPChange(event){
+		this.setState({bondPrice: event.target.value});
+	}
+
+	handleDivChange(event){
+		this.setState({div: event.target.value});
+	}
+
+	handleRfChange(event){
+		this.setState({rf: event.target.value});
+	}
+
+
+	render()
+	{
+		return(
+			<div>
+				<Input label="Bond Price" value={this.state.value} onChange={this.handleBPChange} />
+				<Input label="Dividend" value={this.state.value} onChange={this.handleDivChange} />
+				<Input label="Risk Free Rate" value={this.state.value} onChange={this.handleRfChange} />
+				<p> BondPrice: {this.BondPrice()} </p>
+			</div>
+		);
+	}
+}
+
 class BlackScholes extends Component
 {
 	constructor(props)
@@ -294,6 +348,8 @@ function changeFunctionState(state)
 	);
 }
 
+
+
 /*
 	2401 state manager
  */
@@ -347,6 +403,8 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
 			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
 			  <Button flat onClick={() => this.changeState(<ProjectValuations/>)}>Valuation</Button>
+			  <Button flat onClick={() => this.changeState(<BondPrices/>)}>Bond Prices</Button>
+
 			</div>
 		);
 	}
