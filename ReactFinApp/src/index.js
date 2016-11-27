@@ -112,6 +112,77 @@ class WeightedAverageCostOfCapital extends Component
 	}
 }
 
+class ConvertibleBonds extends Component
+{
+	constructor(props)
+	{
+		super(props)
+		this.state =
+		{
+			ratio: "",	// conversion ratio
+			fv: "",		// face value
+			sp: "",		// stock price
+			cp: ""		// conversion price
+		};
+
+		this.handleRatioChange = this.handleRatioChange.bind(this);
+		this.handleFvChange = this.handleFvChange.bind(this);
+		this.handleSpChange = this.handleSpChange.bind(this);
+		this.ConversionPrice = this.ConversionPrice.bind(this);
+		this.ConversionPremium = this.ConversionPremium.bind(this);
+
+	}
+
+	handleRatioChange(event){
+		this.setState({ratio: event.target.value});
+	}
+
+	handleFvChange(event){
+		this.setState({fv: event.target.value});
+	}
+
+	handleSpChange(event){
+		this.setState({sp: event.target.value});
+	}
+
+	ConversionPrice()
+	{
+		var _fv = parseFloat(this.state.fv);
+		var _ratio = parseFloat(this.state.ratio);
+		var _cp = _fv / _ratio;
+		this.setState({cp: _cp});
+		return _cp;
+
+	}
+
+	ConversionPremium()
+	{
+		var _cp = parseFloat(this.state.cp);
+		var _sp = parseFloat(this.state.sp);
+		var _premium = (_cp - _sp) / _sp;
+		this.setState({premium: _premium});
+		return _premium;
+	}
+
+	render()
+	{
+		return(
+			<div>
+				<h3> Convertible Bonds </h3>
+				<Input label="Conversion Ratio" value={this.state.value} onChange={this.handleRatioChange} />
+				<Input label="Face Value of Bond" value={this.state.value} onChange={this.handleFvChange} />
+				<Input label="Stock Price" value={this.state.value} onChange={this.handleSpChange} />
+
+				<h4> Conversion Premium </h4>
+				<p> Conversion Premium: {this.ConversionPremium()} </p>
+
+				<h4> Conversion Price </h4>
+				<p> Conversion Price: {this.ConversionPrice()} </p>
+			</div>
+		)
+	}
+}
+
 class BondPrices extends Component
 {
 	constructor(props)
@@ -119,33 +190,32 @@ class BondPrices extends Component
 		super(props);
 		this.state =
 		{
-			bondPrice: "", // stock price
-			div: "", // dividends
-			rf: "" // risk free rate
+			principal: "", 	// principal
+			int: "", 		//  interest
+			rf: "" 		// risk free rate
 		};
 
 		this.BondPrice = this.BondPrice.bind(this);
 
-		this.handleBPChange = this.handleBPChange.bind(this);
-		this.handleDivChange = this.handleDivChange.bind(this);
+		this.handlePrincipalChange = this.handlePrincipalChange.bind(this);
+		this.handleInterestChange = this.handleInterestChange.bind(this);
 		this.handleRfChange = this.handleRfChange.bind(this);
 	}
 
 	BondPrice()
 	{
-		var _bp = parseFloat(this.state.bondPrice);
-		var _div = parseFloat(this.state.div);
+		var _bp = parseFloat(this.state.principal);
+		var _int = parseFloat(this.state.int);
 		var _rf = parseFloat(this.state.rf);
-
-		return (_bp + _div)/_rf;
+		return (_bp + _int)/_rf;
 	}
 
-	handleBPChange(event){
-		this.setState({bondPrice: event.target.value});
+	handlePrincipalChange(event){
+		this.setState({principal: event.target.value});
 	}
 
-	handleDivChange(event){
-		this.setState({div: event.target.value});
+	handleInterestChange(event){
+		this.setState({int: event.target.value});
 	}
 
 	handleRfChange(event){
@@ -157,8 +227,8 @@ class BondPrices extends Component
 	{
 		return(
 			<div>
-				<Input label="Bond Price" value={this.state.value} onChange={this.handleBPChange} />
-				<Input label="Dividend" value={this.state.value} onChange={this.handleDivChange} />
+				<Input label="Principal" value={this.state.value} onChange={this.handlePrincipalChange} />
+				<Input label="Interest" value={this.state.value} onChange={this.handleInterestChange} />
 				<Input label="Risk Free Rate" value={this.state.value} onChange={this.handleRfChange} />
 				<p> BondPrice: {this.BondPrice()} </p>
 			</div>
@@ -176,6 +246,7 @@ class Project
 		this.costs = costs;
 	}
 
+
 	projectValue()
 	{
 		return 0;
@@ -186,7 +257,7 @@ class Project
 	This is going to be a tricky class to write
 	It's going to evaluate projects based on costs, and cash flows (not necessarily stable)
  */
-class ProjectEvaluation extends Component
+class ProjectEvaluations extends Component
 {
 	constructor(props)
 	{
@@ -195,19 +266,27 @@ class ProjectEvaluation extends Component
 		// State
 		this.state =
 		{
-
+			dur: "" 	// project duration
 		};
 
 		// Method binding
+		this.handleDurChange = this.handleDurChange.bind(this);
+
 
 		// event handler binding
 	}
+	handleDurChange() {
+
+	}
+
 
 	render()
 	{
 		return (
 			<div>
 				<h3> Project Evaluations </h3>
+				<Input label="Project Duration" value={this.state.value} onChange={this.handleBPChange} />
+				<p> Evaluation Sheet </p>
 			</div>
 		);
 
@@ -293,8 +372,11 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
 			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
 			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
-			  <Button flat onClick={() => this.changeState(<ProjectValuations/>)}>Valuation</Button>
+			  <Button flat onClick={() => this.changeState(<ProjectEvaluations/>)}>Evaluations</Button>
 			  <Button flat onClick={() => this.changeState(<BondPrices/>)}>Bond Prices</Button>
+			  <Button flat onClick={() => this.changeState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
+
+
 			</div>
 		);
 	}
