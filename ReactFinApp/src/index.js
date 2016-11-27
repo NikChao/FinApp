@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
 //React Materialize components
-import { Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
+import { Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
+import PutCallParity from './PutCallParity.js';
+import CapitalAssetPricingModel from './capm.js';
 
 import {
     presentValue,
@@ -18,77 +20,6 @@ import {
 	Should probably check all 3401 ones into a 3401 file, 3402 ones into a
 	3402 file etc. And then import them and manage page selection here
  */
-class CapitalAssetPricingModel extends Component
-{
-
-	constructor(props)
-	{
-		super(props);
-
-		// Define State
-		this.state =
-		{
-			beta: "",
-			mrp: "",
-			rf: ""
-		};
-
-		// Binding methods
-		this.CapitalAsset = this.CapitalAsset.bind(this);
-		this.MktRiskPrem = this.MktRiskPrem.bind(this);
-		this.handleBetaChange = this.handleBetaChange.bind(this);
-		this.handleRfChange = this.handleRfChange.bind(this);
-		this.handleMrpChange = this.handleMrpChange.bind(this);
-	}
-
-	MktRiskPrem(returnOnMarket, riskFreeRate)
-	{
-		return returnOnMarket - riskFreeRate;
-	}
-
-	CapitalAsset()
-	{
-		var _mrp = parseFloat(this.state.mrp);
-		var _rf = parseFloat(this.state.rf);
-		var _beta = parseFloat(this.state.beta);
-		var capm = _rf + _beta * _mrp;
-
-		return capm;
-	}
-
-	handleBetaChange(event)
-	{
-		this.setState({beta: event.target.value});
-	}
-
-	handleRfChange(event)
-	{
-		this.setState({rf: event.target.value});
-	}
-
-	handleMrpChange(event)
-	{
-		this.setState({mrp: event.target.value});
-	}
-
-	render()
-	{
-		return (
-			<div>
-			  <div id="capm">
-
-			  </div>
-			  <div id="wacc"></div>
-			  <div id="val"></div>
-			  <h5> Capital Asset Pricing Model </h5>
-			  <Input label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
-			  <Input label="Market risk premium" value={this.state.value} onChange={this.handleMrpChange} />
-			  <Input label="Beta" value={this.state.value} onChange={this.handleBetaChange} />
-			  <p> CAPM = {this.CapitalAsset()} </p>
-			</div>
-		);
-	}
-}
 
 class WeightedAverageCostOfCapital extends Component
 {
@@ -273,76 +204,6 @@ class BlackScholes extends Component
 	}
 }
 
-// Might have to split this up into a parent and 2 child classes.
-class PutCallParity extends Component
-{
-	constructor(props)
-	{
-		super(props);
-
-		// Statef y
-		this.state =
-		{
-			S: "", // spot price
-			K: "", // strike price
-			C: "", // call price
-			P: "", // put price
-			r: "", // risk free rate
-			t: "", // time to expiry
-			result: "", // given result (Either "Call" or "Put")
-			resVal: 0,  // result Value
-		};
-
-		// Method Binding
-		this.getCall = this.getCall.bind(this);
-		this.getPut = this.getPut.bind(this);
-
-		// Event Handler Binding
-		this.handleCallChange = this.handleCallChange.bind(this);
-		this.handlePutChange = this.handlePutChange.bind(this);
-	}
-
-	getCall()
-	{
-		// C + PV(Strike) = P + Spot
-		var _P = parseFloat(this.state.P);
-		var _K = parseFloat(this.state.K);
-		var _S = parseFloat(this.state.S);
-		var _r = parseFloat(this.state.r);
-		var _t = parseFloat(this.state.t);
-
-		return _P + _S - _K * Math.pow(Math.E, -1 * _r * _t);
-	}
-
-	getPut()
-	{
-		var _C = parseFloat(this.state.C);
-		var _K = parseFloat(this.state.K);
-		var _S = parseFloat(this.state.S);
-		var _r = parseFloat(this.state.r);
-		var _t = parseFloat(this.state.t);;
-
-		return _C + _K * Math.pow(Math.E, -1 * _r * _t) - _S;
-	}
-
-	handleCallChange(event)
-	{
-		this.setState({result: "Put", P: this.getPut(), V: this.getPut()}); // set put and set result and value to be put
-	}
-
-	handlePutChange(event)
-	{
-		this.setState({result: "Call", C: this.getCall(), V: this.getCall()}); // set call and set result and value to be call
-	}
-
-	render()
-	{
-		return (
-			<div> </div>
-		);
-	}
-}
-
 // Project class to be used by ProjectEvaluation class
 // Most likely scenario is complex projects have to be broken down into many of these
 class Project
@@ -434,7 +295,7 @@ class FinancialManagementStateManager extends Component
 		return (
 			<div>
 				<h4> Financial Management Functions </h4>
-				<Button flat className="btn btn-primary" onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
+				<Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
 			</div>
 		);
 	}
@@ -464,6 +325,7 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<BlackScholes />)}>B-S Model</Button>
 			  <Button flat onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
 			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
+			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
 			</div>
 		);
 	}
