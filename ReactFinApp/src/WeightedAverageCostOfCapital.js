@@ -34,7 +34,7 @@ export default class WeightedAverageCostOfCapital extends Component
         var _rd = parseFloat(this.state.rd)/100;
         var _re = parseFloat(this.state.re)/100;
         var _wacc = (_re*(_equity/_value)) + (_rd*(_debt/_value));
-        return Math.round(_wacc * 10000)/100;
+        return Math.round(_wacc * 10000)/100; //2 decimal places
     }
 
     handleEquityChange(event)
@@ -61,11 +61,12 @@ export default class WeightedAverageCostOfCapital extends Component
     {
         return (
             <div>
-              <h3> Weighted Average Cost of Capital </h3>
-              <p> Equity </p><input type="text" value={this.state.value} onChange={this.handleEquityChange} />
-              <p> Debt </p> <input type="text" value={this.state.value} onChange={this.handleDebtChange} />
-              <p> Return on Equity (%) </p> <input type="text" value={this.state.value} onChange={this.handleReChange} />
-              <p> Return on Debt (%) </p> <input type="text" value={this.state.value} onChange={this.handleRdChange} />
+
+              <Input type="text" label="Equity" value={this.state.value} onChange={this.handleEquityChange} />
+              <Input type="text" label="Debt" value={this.state.value} onChange={this.handleDebtChange} />
+              <Input type="text" label="Return on Equity" value={this.state.value} onChange={this.handleReChange} />
+              <Input type="text" label="Return on Debt" value={this.state.value} onChange={this.handleRdChange} />
+
               <p> Weighted Average Cost of Capital: {this.wacc()}%</p>
             </div>
         );
