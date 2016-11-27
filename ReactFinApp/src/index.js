@@ -5,12 +5,32 @@ import ReactDOM from 'react-dom';
 import { Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
 
 import {
-    presentValue,
-    futureValue,
+    pv,
+    fv,
     stockToEquity,
     annuityValue,
+    annuityValueGrowth,
     perpetuityValue,
-    perpetuityCashFlow
+    perpetuityValueGrowth,
+    perpetuityCashFlow,
+    pvInterestTaxShield,
+    pvExpectedFinancialDistrressCost, 
+    valueLeveredFirm, 
+    valueUnleveredFirm,
+    interestTaxShield, 
+    mrp,
+    mrpAvgHistoricalDifference,
+    mrpFromStock, 
+    firmBetaFromCovariance,
+    firmBetaFromCapm,
+    bondPriceWithNoDefault,
+    bondPriceWithDefault,
+    ebitda,
+    ebit,
+    netIncome,
+    firmFCF,
+    netWorkingCapital,
+    increaseNWC
 } from './generalFunctions.js';
 
 /*
@@ -464,6 +484,8 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<BlackScholes />)}>B-S Model</Button>
 			  <Button flat onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
 			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
+			  <Button flat onClick={() => this.changeState(<ProjectValuations/>)}>Valuation</Button>
+
 			</div>
 		);
 	}
