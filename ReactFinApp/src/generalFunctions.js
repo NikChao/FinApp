@@ -45,15 +45,15 @@ function perpetuityCashFlow(presentValue, riskFreeRate)
     return presentValue * riskFreeRate;
 }
 
-/* 
+/*
     Computing interest tax shields and value of firms
 */
-function pvInterestTaxShield(taxableExpense, corporateTaxRate) 
+function pvInterestTaxShield(taxableExpense, corporateTaxRate)
 {
     return taxableExpense * corporateTaxRate;
 }
 
-function pvExpectedFinancialDistrressCost(probabilityFinancialDistress, financialDistressCost) 
+function pvExpectedFinancialDistrressCost(probabilityFinancialDistress, financialDistressCost)
 {
     return probabilityFinancialDistress * financialDistressCost;
 }
@@ -73,11 +73,11 @@ function interestTaxShield(valueLeveredFirm, valueUnleveredFirm)
     return valueLeveredFirm - valueUnleveredFirm;
 }
 
-/* 
+/*
     Computing components of CAPM
 */
-function mrp(expectedReturnOnMarket, rf) 
-{   
+function mrp(expectedReturnOnMarket, rf)
+{
     return expectedReturnOnMarket - rf;
 }
 
@@ -101,7 +101,7 @@ function firmBetaFromCapm(expectedReturn, rf, mrp)
     return (expectedReturn - rf) / mrp;
 }
 
-/* 
+/*
     Compute price of bond
 */
 
@@ -134,10 +134,10 @@ function netIncome(ebit, tax, interestExpense)
     return ebit - tax - interestExpense;
 }
 
-function firmFCF(netIncome, depreciationAndAmortisation, 
+function firmFCF(netIncome, depreciationAndAmortisation,
         increaseCapitalExpenditure, increaseNetWorkingCapital, gainOnAsset)
 {
-    return netIncome + depreciationAndAmortisation - increaseCapitalExpenditure - 
+    return netIncome + depreciationAndAmortisation - increaseCapitalExpenditure -
     increaseNetWorkingCapital + gainOnAsset;
 }
 
@@ -152,10 +152,6 @@ function increaseNWC(previousNWC, currentNWC)
 }
 
 
-
-
-
-
 export {
     pv,
     fv,
@@ -166,13 +162,13 @@ export {
     perpetuityValueGrowth,
     perpetuityCashFlow,
     pvInterestTaxShield,
-    pvExpectedFinancialDistrressCost, 
-    valueLeveredFirm, 
+    pvExpectedFinancialDistrressCost,
+    valueLeveredFirm,
     valueUnleveredFirm,
-    interestTaxShield, 
+    interestTaxShield,
     mrp,
     mrpAvgHistoricalDifference,
-    mrpFromStock, 
+    mrpFromStock,
     firmBetaFromCovariance,
     firmBetaFromCapm,
     bondPriceWithNoDefault,
