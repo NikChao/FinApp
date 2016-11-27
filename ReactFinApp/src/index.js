@@ -206,8 +206,11 @@ class ProjectEvaluation extends Component
 	render()
 	{
 		return (
-			<div></div>
+			<div>
+				<h3> Project Evaluations </h3>
+			</div>
 		);
+
 	}
 }
 
@@ -292,7 +295,6 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
 			  <Button flat onClick={() => this.changeState(<ProjectValuations/>)}>Valuation</Button>
 			  <Button flat onClick={() => this.changeState(<BondPrices/>)}>Bond Prices</Button>
-
 			</div>
 		);
 	}
