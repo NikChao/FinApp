@@ -7,12 +7,32 @@ import PutCallParity from './PutCallParity.js';
 import CapitalAssetPricingModel from './capm.js';
 
 import {
-    presentValue,
-    futureValue,
+    pv,
+    fv,
     stockToEquity,
     annuityValue,
+    annuityValueGrowth,
     perpetuityValue,
-    perpetuityCashFlow
+    perpetuityValueGrowth,
+    perpetuityCashFlow,
+    pvInterestTaxShield,
+    pvExpectedFinancialDistrressCost,
+    valueLeveredFirm,
+    valueUnleveredFirm,
+    interestTaxShield,
+    mrp,
+    mrpAvgHistoricalDifference,
+    mrpFromStock,
+    firmBetaFromCovariance,
+    firmBetaFromCapm,
+    bondPriceWithNoDefault,
+    bondPriceWithDefault,
+    ebitda,
+    ebit,
+    netIncome,
+    firmFCF,
+    netWorkingCapital,
+    increaseNWC
 } from './generalFunctions.js';
 
 /*
@@ -50,8 +70,8 @@ class WeightedAverageCostOfCapital extends Component
 		var _debt = parseFloat(this.state.debt);
 		var _equity = parseFloat(this.state.equity);
 		var _value = _equity + _debt;
-		var _rd = parseFloat(this.state.rd);
-		var _re = parseFloat(this.state.re);
+		var _rd = parseFloat(this.state.rd)/100;
+		var _re = parseFloat(this.state.re)/100;
 		var _wacc = (_re*(_equity/_value)) + (_rd*(_debt/_value));
 		return Math.round(_wacc * 10000)/100;
 	}
@@ -83,8 +103,8 @@ class WeightedAverageCostOfCapital extends Component
 			  <h3> Weighted Average Cost of Capital </h3>
 			  <p> Equity </p><input type="text" value={this.state.value} onChange={this.handleEquityChange} />
 			  <p> Debt </p> <input type="text" value={this.state.value} onChange={this.handleDebtChange} />
-			  <p> Return on Equity </p> <input type="text" value={this.state.value} onChange={this.handleReChange} />
-			  <p> Return on Debt </p> <input type="text" value={this.state.value} onChange={this.handleRdChange} />
+			  <p> Return on Equity (%) </p> <input type="text" value={this.state.value} onChange={this.handleReChange} />
+			  <p> Return on Debt (%) </p> <input type="text" value={this.state.value} onChange={this.handleRdChange} />
 			  <p> Weighted Average Cost of Capital: {this.wacc()}%</p>
 			</div>
 		);
@@ -326,6 +346,7 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
 			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
 			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
+			  <Button flat onClick={() => this.changeState(<ProjectValuations/>)}>Valuation</Button>
 			</div>
 		);
 	}
