@@ -6,6 +6,8 @@ import { Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-mater
 import PutCallParity from './PutCallParity.js';
 import CapitalAssetPricingModel from './capm.js';
 import BlackScholes from './BlackScholesCallPrice.js'
+import WeightedAverageCostOfCapital from './WeightedAverageCostOfCapital.js'
+import BondPrices from './BondPrices.js';
 
 import {
     pv,
@@ -35,136 +37,6 @@ import {
     netWorkingCapital,
     increaseNWC
 } from './generalFunctions.js';
-
-/*
-	Each class below represents a different Financial function
-	Should probably check all 3401 ones into a 3401 file, 3402 ones into a
-	3402 file etc. And then import them and manage page selection here
- */
-
-class WeightedAverageCostOfCapital extends Component
-{
-	constructor(props)
-	{
-		super(props)
-
-		// state
-		this.state =
-		{
-			debt: "",
-			equity: "",
-			rd: "",
-			re: ""
-		}
-
-		// method binding
-		this.wacc = this.wacc.bind(this);
-		this.handleEquityChange = this.handleEquityChange.bind(this);
-		this.handleDebtChange = this.handleDebtChange.bind(this);
-		this.handleRdChange = this.handleRdChange.bind(this);
-		this.handleReChange = this.handleReChange.bind(this);
-	}
-
-
-	wacc()
-	{
-		var _debt = parseFloat(this.state.debt);
-		var _equity = parseFloat(this.state.equity);
-		var _value = _equity + _debt;
-		var _rd = parseFloat(this.state.rd)/100;
-		var _re = parseFloat(this.state.re)/100;
-		var _wacc = (_re*(_equity/_value)) + (_rd*(_debt/_value));
-		return Math.round(_wacc * 10000)/100;
-	}
-
-	handleEquityChange(event)
-	{
-		this.setState({equity: event.target.value});
-	}
-
-	handleDebtChange(event)
-	{
-		this.setState({debt: event.target.value});
-	}
-
-	handleRdChange(event)
-	{
-		this.setState({rd: event.target.value});
-	}
-
-	handleReChange(event)
-	{
-		this.setState({re: event.target.value});
-	}
-
-	render()
-	{
-		return (
-			<div>
-			  <h3> Weighted Average Cost of Capital </h3>
-			  <p> Equity </p><input type="text" value={this.state.value} onChange={this.handleEquityChange} />
-			  <p> Debt </p> <input type="text" value={this.state.value} onChange={this.handleDebtChange} />
-			  <p> Return on Equity (%) </p> <input type="text" value={this.state.value} onChange={this.handleReChange} />
-			  <p> Return on Debt (%) </p> <input type="text" value={this.state.value} onChange={this.handleRdChange} />
-			  <p> Weighted Average Cost of Capital: {this.wacc()}%</p>
-			</div>
-		);
-	}
-}
-
-class BondPrices extends Component
-{
-	constructor(props)
-	{
-		super(props);
-		this.state =
-		{
-			bondPrice: "", // stock price
-			div: "", // dividends
-			rf: "" // risk free rate
-		};
-
-		this.BondPrice = this.BondPrice.bind(this);
-
-		this.handleBPChange = this.handleBPChange.bind(this);
-		this.handleDivChange = this.handleDivChange.bind(this);
-		this.handleRfChange = this.handleRfChange.bind(this);
-	}
-
-	BondPrice()
-	{
-		var _bp = parseFloat(this.state.bondPrice);
-		var _div = parseFloat(this.state.div);
-		var _rf = parseFloat(this.state.rf);
-
-		return (_bp + _div)/_rf;
-	}
-
-	handleBPChange(event){
-		this.setState({bondPrice: event.target.value});
-	}
-
-	handleDivChange(event){
-		this.setState({div: event.target.value});
-	}
-
-	handleRfChange(event){
-		this.setState({rf: event.target.value});
-	}
-
-
-	render()
-	{
-		return(
-			<div>
-				<Input label="Bond Price" value={this.state.value} onChange={this.handleBPChange} />
-				<Input label="Dividend" value={this.state.value} onChange={this.handleDivChange} />
-				<Input label="Risk Free Rate" value={this.state.value} onChange={this.handleRfChange} />
-				<p> BondPrice: {this.BondPrice()} </p>
-			</div>
-		);
-	}
-}
 
 // Project class to be used by ProjectEvaluation class
 // Most likely scenario is complex projects have to be broken down into many of these
@@ -206,11 +78,8 @@ class ProjectEvaluation extends Component
 	render()
 	{
 		return (
-			<div>
-				<h3> Project Evaluations </h3>
-			</div>
+			<div></div>
 		);
-
 	}
 }
 
@@ -295,6 +164,7 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
 			  <Button flat onClick={() => this.changeState(<ProjectValuations/>)}>Valuation</Button>
 			  <Button flat onClick={() => this.changeState(<BondPrices/>)}>Bond Prices</Button>
+
 			</div>
 		);
 	}

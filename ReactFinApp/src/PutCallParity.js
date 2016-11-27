@@ -7,112 +7,96 @@ export default class PutCallParity extends Component
     {
         super(props);
 
-        // Statef y
+        // State
         this.state =
         {
-            S: "", // spot price
-            K: "", // strike price
-            C: "", // call price
-            P: "", // put price
-            r: "", // risk free rate
-            t: "", // time to expiry
-            isCall: "",
-            resVal: 0,  // result Value
+            spot: 0,
+            strike: 0,
+            time: 0,
+            rf: 0,
+            call: null,
+            put: null,
+            callVal: 0,
+            putVal: 0
         };
 
         // Method Binding
-        this.getCall = this.getCall.bind(this);
         this.getPut = this.getPut.bind(this);
-        this.putCallRender = this.putCallRender.bind(this);
-        this.setIsCall = this.setIsCall.bind(this);
+        this.getCall = this.getCall.bind(this);
 
         // Event Handler Binding
-        this.handleCallChange = this.handleCallChange.bind(this);
-        this.handlePutChange = this.handlePutChange.bind(this);
         this.handleSpotChange = this.handleSpotChange.bind(this);
         this.handleStrikeChange = this.handleStrikeChange.bind(this);
-        this.handleRfChange = this.handleRfChange.bind(this);
         this.handleTimeChange = this.handleTimeChange.bind(this);
+        this.handleRfChange = this.handleRfChange.bind(this);
+
+        this.handleCallChange = this.handleCallChange.bind(this);
+        this.handlePutChange = this.handlePutChange.bind(this);
+        this.putCallSelect = this.putCallSelect.bind(this);
     }
 
-    getCall()
+    // return _P + _S - _K * Math.pow(Math.E, -1 * _r * _t); CALL
+
+    putCallSelect()
     {
-        // C + PV(Strike) = P + Spot
-        var _P = parseFloat(this.state.P);
-        var _K = parseFloat(this.state.K);
-        var _S = parseFloat(this.state.S);
-        var _r = parseFloat(this.state.r);
-        var _t = parseFloat(this.state.t);
-
-        return _P + _S - _K * Math.pow(Math.E, -1 * _r * _t);
-    }
-
-    getPut()
-    {
-        var _C = parseFloat(this.state.C);
-        var _K = parseFloat(this.state.K);
-        var _S = parseFloat(this.state.S);
-        var _r = parseFloat(this.state.r);
-        var _t = parseFloat(this.state.t);;
-
-        // return _C + _K * Math.pow(Math.E, -1 * _r * _t) - _S;
-        return 1;
-    }
-
-    putCallRender(event)
-    {
-        if(this.state.isCall === "call")
+        if(this.state.put === null)
         {
             return (
                 <div>
-                <p> Call: {this.state.P}</p>
+                <Input label="Put Price" value={this.state.value} onChange={this.handlePutChange} />
+                <p> Call Price: {this.getCall()}</p>
                 </div>
             );
-        } else {
+        } else if(this.state.call === null){
             return (
                 <div>
-                <p> Put: {this.getPut()} </p>
+                <Input label="Call Price" value={this.state.value} onChange={this.handleCallChange} />
+                <p> Put Price: {this.getPut()} {this.state.call}</p>
                 </div>
             );
         }
     }
 
-    handleCallChange(event)
+    getPut()
     {
-        this.setState({P: this.getPut(), resVal: "Put: " + this.getPut()}); // set put and set result and value to be put
+        return Math.max(this.state.callVal + this.state.strike * Math.pow(Math.E, -1 * this.state.time * this.state.rf) - this.state.spot,0);
     }
 
-    handlePutChange(event)
+    getCall()
     {
-        this.setState({C: this.getCall(), resVal: "Call: " + this.getCall()}); // set call and set result and value to be call
+        return Math.max(this.state.putVal + this.state.spot - this.state.strike * Math.pow(Math.E, -1 * this.state.rf * this.state.time),0);
     }
 
     handleSpotChange(event)
     {
-        this.setState({S: event.target.value});
+        this.setState({spot: parseFloat(event.target.value)});
     }
 
     handleStrikeChange(event)
     {
-        this.setState({K: event.target.value});
-
-    }
-
-    handleRfChange(event)
-    {
-        this.setState({r: event.target.value});
-
+        this.setState({strike: parseFloat(event.target.value)});
     }
 
     handleTimeChange(event)
     {
-        this.setState({t: event.target.value});
+        this.setState({time: parseFloat(event.target.value)});
     }
 
-    setIsCall(state)
+    handleRfChange(event)
     {
-        this.setState({isCall: state})
+        this.setState({rf: parseFloat(event.target.value)});
     }
+
+    handleCallChange(event)
+    {
+        this.setState({callVal: parseFloat(event.target.value), put: !null, call: null});
+    }
+
+    handlePutChange(event)
+    {
+        this.setState({putVal: parseFloat(event.target.value), call: !null, put: null});
+    }
+
 
     render()
     {
@@ -120,13 +104,13 @@ export default class PutCallParity extends Component
             <div>
                 <Input label="Spot price" value={this.state.value} onChange={this.handleSpotChange} />
                 <Input label="Strike price" value={this.state.value} onChange={this.handleStrikeChange} />
-                <Input label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
                 <Input label="Time to maturity" value={this.state.value} onChange={this.handleTimeChange} />
+                <Input label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
 
-                <Input name='group1' type='radio' value='call' label='Call' className='with-gap' onClick={() => this.setIsCall("call")} />
-                <Input name='group1' type='radio' value='put' label='Put' className='with-gap' onClick={() => this.setIsCall("put")} />
-                <br></br>
-                {this.putCallRender()}
+                <p> Result Value? </p>
+                <Input name='group1' type='radio' value='call' label='Call' className='with-gap' onClick={() => this.setState({call: !null, put: null})} />
+                <Input name='group1' type='radio' value='put' label='Put' className='with-gap' onClick={() => this.setState({put: !null, call: null})} />
+                {this.putCallSelect()}
             </div>
         );
     }
