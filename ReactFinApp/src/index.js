@@ -3,12 +3,21 @@ import ReactDOM from 'react-dom';
 
 //React Materialize components
 import { Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
+
+// Formula Classes
 import PutCallParity from './Formulas/PutCallParity.js';
 import CapitalAssetPricingModel from './Formulas/CapitalAssetPricingModel.js';
 import BlackScholes from './Formulas/BlackScholesCallPrice.js'
 import WeightedAverageCostOfCapital from './Formulas/WeightedAverageCostOfCapital.js'
 import BondPrices from './Formulas/BondPrices.js';
 
+//Render functions
+import {
+    changeFunctionState,
+    changeTopicState
+} from './RenderFunctions.js';
+
+//commonly used functions
 import {
     pv,
     fv,
@@ -84,33 +93,6 @@ class ProjectEvaluation extends Component
 }
 
 /*
-	Changes which topic goes in the topic div and clears the function div
- */
-function changeTopicState(state)
-{
-	ReactDOM.render(
-		state,
-		document.getElementById('topic'));
-	ReactDOM.render(
-		<div></div>,
-		document.getElementById('function')
-		);
-}
-
-/*
-	Changes which function goes into the function div
- */
-function changeFunctionState(state)
-{
-	ReactDOM.render(
-  		state,
-  		document.getElementById('function')
-	);
-}
-
-
-
-/*
 	2401 state manager
  */
 class FinancialManagementStateManager extends Component
@@ -118,12 +100,6 @@ class FinancialManagementStateManager extends Component
 	constructor(props)
 	{
 		super(props);
-		this.changeState = this.changeState.bind(this);
-	}
-
-	changeState(state)
-	{
-		changeFunctionState(state);
 	}
 
 	render()
@@ -131,7 +107,7 @@ class FinancialManagementStateManager extends Component
 		return (
 			<div>
 				<h4> Financial Management Functions </h4>
-				<Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
+				<Button flat onClick={() => changeFunctionState(<CapitalAssetPricingModel />)}>CAPM</Button>
 			</div>
 		);
 	}
@@ -145,12 +121,6 @@ class CorpFinanceStateManager extends Component
 	constructor(props)
 	{
 		super(props);
-		this.changeState = this.changeState.bind(this);
-	}
-
-	changeState(state)
-	{
-		changeFunctionState(state);
 	}
 
 	render()
@@ -158,18 +128,35 @@ class CorpFinanceStateManager extends Component
 		return (
 			<div>
 			  <h4> Corporate Finance Functions </h4>
-			  <Button flat onClick={() => this.changeState(<BlackScholes />)}>B-S Model</Button>
-			  <Button flat onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
-			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
-			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
-			  <Button flat onClick={() => this.changeState(<ProjectValuations/>)}>Valuation</Button>
-			  <Button flat onClick={() => this.changeState(<BondPrices/>)}>Bond Prices</Button>
-
+			  <Button flat onClick={() => changeFunctionState(<BlackScholes />)}>B-S Model</Button>
+			  <Button flat onClick={() => changeFunctionState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
+			  <Button flat onClick={() => changeFunctionState(<CapitalAssetPricingModel />)}>CAPM</Button>
+			  <Button flat onClick={() => changeFunctionState(<PutCallParity />)}>Put-Call parity</Button>
+			  <Button flat onClick={() => changeFunctionState(<ProjectValuations/>)}>Valuation</Button>
+			  <Button flat onClick={() => changeFunctionState(<BondPrices/>)}>Bond Prices</Button>
 			</div>
 		);
 	}
 }
 
+
+/*
+	3405
+ */
+class DerivRiskMgmtStateManager extends Component
+{
+	constructor(props)
+	{
+		super(props);
+	}
+	render()
+	{
+		return (
+			<div>
+			</div>
+		);
+	}
+}
 
 
 /*
@@ -180,24 +167,19 @@ class MasterStateManager extends Component
 	constructor(props)
 	{
 		super(props);
-
-		// event handler binding
-		this.changeState = this.changeState.bind(this);
-	}
-
-	changeState(state, topicName)
-	{
-		changeTopicState(state);
 	}
 
 	render()
 	{
-
 		return (
 			<div>
 				<Navbar brand='FinApp' right>
-					<NavItem onClick={() => this.changeState(<FinancialManagementStateManager />, 2401)}> 2401 </NavItem>
-					<NavItem onClick={() => this.changeState(<CorpFinanceStateManager />, 3401)}> 3401 </NavItem>
+					<NavItem onClick={() => changeTopicState(<FinancialManagementStateManager />)}> 2401 </NavItem>
+					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3401 </NavItem>
+					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3402 </NavItem>
+					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3403 </NavItem>
+					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3404 </NavItem>
+					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3405 </NavItem>
 				</Navbar>
 			</div>
 		);
