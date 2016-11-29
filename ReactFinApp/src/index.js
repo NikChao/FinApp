@@ -95,7 +95,6 @@ class ProjectEvaluations extends Component
 	render()
 	{
 		return (
-			<div></div>
 			<div>
 				<h3> Project Evaluations </h3>
 				<Input label="Project Duration" value={this.state.value} onChange={this.handleBPChange} />
