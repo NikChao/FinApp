@@ -10,6 +10,7 @@ import CapitalAssetPricingModel from './Formulas/CapitalAssetPricingModel.js';
 import BlackScholes from './Formulas/BlackScholesCallPrice.js'
 import WeightedAverageCostOfCapital from './Formulas/WeightedAverageCostOfCapital.js'
 import BondPrices from './Formulas/BondPrices.js';
+import ConvertibleBonds from './Formulas/ConvertibleBonds.js';
 
 //Render functions
 import {
@@ -57,6 +58,7 @@ class Project
 		this.costs = costs;
 	}
 
+
 	projectValue()
 	{
 		return 0;
@@ -67,7 +69,7 @@ class Project
 	This is going to be a tricky class to write
 	It's going to evaluate projects based on costs, and cash flows (not necessarily stable)
  */
-class ProjectEvaluation extends Component
+class ProjectEvaluations extends Component
 {
 	constructor(props)
 	{
@@ -76,18 +78,29 @@ class ProjectEvaluation extends Component
 		// State
 		this.state =
 		{
-
+			dur: "" 	// project duration
 		};
 
 		// Method binding
+		this.handleDurChange = this.handleDurChange.bind(this);
+
 
 		// event handler binding
 	}
+	handleDurChange() {
+
+	}
+
 
 	render()
 	{
 		return (
 			<div></div>
+			<div>
+				<h3> Project Evaluations </h3>
+				<Input label="Project Duration" value={this.state.value} onChange={this.handleBPChange} />
+				<p> Evaluation Sheet </p>
+			</div>
 		);
 	}
 }
@@ -153,6 +166,16 @@ class DerivRiskMgmtStateManager extends Component
 	{
 		return (
 			<div>
+
+			  <h4> Corporate Finance Functions </h4>
+			  <Button flat onClick={() => this.changeState(<BlackScholes />)}>B-S Model</Button>
+			  <Button flat onClick={() => this.changeState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
+			  <Button flat onClick={() => this.changeState(<CapitalAssetPricingModel />)}>CAPM</Button>
+			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
+			  <Button flat onClick={() => this.changeState(<ProjectEvaluations/>)}>Evaluations</Button>
+			  <Button flat onClick={() => this.changeState(<BondPrices/>)}>Bond Prices</Button>
+			  <Button flat onClick={() => this.changeState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
+
 			</div>
 		);
 	}
