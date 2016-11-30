@@ -77,7 +77,7 @@ export default class WeightedAverageCostOfCapital extends Component
               <Input type="text" label="Return on Debt" value={this.state.value} onChange={this.handleRdChange} />
               <Input type="text" label="Tax Rate" value={this.state.value} onChange={this.handleTaxChange} />
 
-              <p> Weighted Average Cost of Capital: {this.wacc()}%</p>
+              <p> <h4> Weighted Average Cost of Capital </h4> <br /> Equation: re * (E / V) + rd * (D / V) * (1 - Tax Rate) <br /> Answer: {this.wacc()}%</p>
             </div>
         );
     }

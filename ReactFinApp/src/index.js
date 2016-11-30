@@ -11,6 +11,7 @@ import BlackScholes from './Formulas/BlackScholesCallPrice.js'
 import WeightedAverageCostOfCapital from './Formulas/WeightedAverageCostOfCapital.js'
 import BondPrices from './Formulas/BondPrices.js';
 import ConvertibleBonds from './Formulas/ConvertibleBonds.js';
+import FinancialOptions from './Formulas/FinancialOptions.js';
 
 //Render functions
 import {
@@ -138,22 +139,34 @@ class CorpFinanceStateManager extends Component
 	render()
 	{
 		return (
-			<div>
-			  <h4> Corporate Finance Functions </h4>
-			  <Button flat onClick={() => changeFunctionState(<BlackScholes />)}>B-S Model</Button>
-			  <Button flat onClick={() => changeFunctionState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
-			  <Button flat onClick={() => changeFunctionState(<CapitalAssetPricingModel />)}>CAPM</Button>
-			  <Button flat onClick={() => changeFunctionState(<PutCallParity />)}>Put-Call parity</Button>
-			  <Button flat onClick={() => changeFunctionState(<ProjectValuations/>)}>Valuation</Button>
-			  <Button flat onClick={() => changeFunctionState(<BondPrices/>)}>Bond Prices</Button>
-                                        <Button flat onClick={() =>  changeFunctionState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
+                            <div>
+                            <h4> Corporate Finance Functions </h4>
+
+                            <Button flat onClick={() => changeFunctionState(<GeneralEquations />)}>General Equations</Button>
+
+                            <Button flat onClick={() => changeFunctionState(<CapitalAssetPricingModel />)}>CAPM</Button>
+
+                            <Button flat onClick={() => changeFunctionState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
+                            <Button flat onClick={() => changeFunctionState(<ProjectValuations/>)}>Corporate Valuation</Button>
+                            <Button flat onClick={() => changeFunctionState(<FinancialOptions/>)}>Financial Options</Button>
 
 
+                            <Button flat onClick={() => changeFunctionState(<PutCallParity />)}>Put-Call parity</Button>
+                            <Button flat onClick={() => changeFunctionState(<BlackScholes />)}>B-S Model</Button>
 
-			</div>
+                            <Button flat onClick={() => changeFunctionState(<BondPrices/>)}>Bond Prices</Button>
+                            <Button flat onClick={() =>  changeFunctionState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
+
+                            </div>
 		);
 	}
 }
+
+/*
+TODO: FOR CORP FINANCE STATE MANAGER:
+    - general equations -> add layout for all equations in generalfunction class
+    - financial options
+ */
 
 
 /*
