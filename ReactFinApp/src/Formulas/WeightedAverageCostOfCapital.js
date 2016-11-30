@@ -14,7 +14,8 @@ export default class WeightedAverageCostOfCapital extends Component
             debt: "",
             equity: "",
             rd: "",
-            re: ""
+            re: "",
+            taxRate: 0
         }
 
         // method binding
@@ -23,18 +24,20 @@ export default class WeightedAverageCostOfCapital extends Component
         this.handleDebtChange = this.handleDebtChange.bind(this);
         this.handleRdChange = this.handleRdChange.bind(this);
         this.handleReChange = this.handleReChange.bind(this);
-    }
+        this.handleTaxChange = this.handleTaxChange.bind(this);
 
+    }
 
     wacc()
     {
         var _debt = parseFloat(this.state.debt);
         var _equity = parseFloat(this.state.equity);
         var _value = _equity + _debt;
-        var _rd = parseFloat(this.state.rd)/100;
-        var _re = parseFloat(this.state.re)/100;
-        var _wacc = (_re*(_equity/_value)) + (_rd*(_debt/_value));
-        return Math.round(_wacc * 10000)/100; //2 decimal places
+        var _rd = parseFloat(this.state.rd) / 100;
+        var _re = parseFloat(this.state.re) / 100;
+        var _tax = parseFloat(this.state.taxRate) / 100;
+        var _wacc = (_re * (_equity / _value)) + (_rd * (_debt / _value) * (1 - _tax));
+        return Math.round(_wacc * 10000) / 100; //2 decimal places
     }
 
     handleEquityChange(event)
@@ -57,6 +60,12 @@ export default class WeightedAverageCostOfCapital extends Component
         this.setState({re: event.target.value});
     }
 
+    handleTaxChange(event)
+    {
+        this.setState({taxRate: event.target.value});
+
+    }
+
     render()
     {
         return (
@@ -66,6 +75,7 @@ export default class WeightedAverageCostOfCapital extends Component
               <Input type="text" label="Debt" value={this.state.value} onChange={this.handleDebtChange} />
               <Input type="text" label="Return on Equity" value={this.state.value} onChange={this.handleReChange} />
               <Input type="text" label="Return on Debt" value={this.state.value} onChange={this.handleRdChange} />
+              <Input type="text" label="Tax Rate" value={this.state.value} onChange={this.handleTaxChange} />
 
               <p> Weighted Average Cost of Capital: {this.wacc()}%</p>
             </div>

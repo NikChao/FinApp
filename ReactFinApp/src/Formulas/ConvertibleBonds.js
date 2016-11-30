@@ -13,14 +13,16 @@ export default class ConvertibleBonds extends Component
             ratio: "",  // conversion ratio
             fv: "",     // face value
             sp: "",     // stock price
-            cp: ""      // conversion price
         };
 
         this.handleRatioChange = this.handleRatioChange.bind(this);
         this.handleFvChange = this.handleFvChange.bind(this);
         this.handleSpChange = this.handleSpChange.bind(this);
+
+
         this.ConversionPrice = this.ConversionPrice.bind(this);
         this.ConversionPremium = this.ConversionPremium.bind(this);
+        this.ConversionValue= this.ConversionValue.bind(this);
 
     }
 
@@ -41,18 +43,26 @@ export default class ConvertibleBonds extends Component
         var _fv = parseFloat(this.state.fv);
         var _ratio = parseFloat(this.state.ratio);
         var _cp = _fv / _ratio;
-        this.setState({cp: _cp});
         return _cp;
-
     }
 
     ConversionPremium()
     {
-        var _cp = parseFloat(this.state.cp);
+        var _fv = parseFloat(this.state.fv);
+        var _ratio = parseFloat(this.state.ratio);
+        var _cp = _fv / _ratio;
+
         var _sp = parseFloat(this.state.sp);
         var _premium = (_cp - _sp) / _sp;
-        this.setState({premium: _premium});
         return _premium;
+    }
+
+    ConversionValue()
+    {
+        var _ratio = parseFloat(this.state.ratio);
+        var _sp = parseFloat(this.state.sp);
+        var _value = (_ratio * _sp)
+        return _value;
     }
 
     render()
@@ -65,10 +75,14 @@ export default class ConvertibleBonds extends Component
                 <Input label="Stock Price" value={this.state.value} onChange={this.handleSpChange} />
 
                 <h4> Conversion Premium </h4>
-                <p> Conversion Premium: {this.ConversionPremium()} </p>
+                <p> Conversion Price = {this.ConversionPremium()} </p>
 
                 <h4> Conversion Price </h4>
-                <p> Conversion Price: {this.ConversionPrice()} </p>
+                <p> Conversion Price = {this.ConversionPrice()} </p>
+
+                <h4> Conversion Value </h4>
+                <p> Conversion Value = {this.ConversionValue()} </p>
+
             </div>
         )
     }

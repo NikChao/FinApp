@@ -146,6 +146,10 @@ class CorpFinanceStateManager extends Component
 			  <Button flat onClick={() => changeFunctionState(<PutCallParity />)}>Put-Call parity</Button>
 			  <Button flat onClick={() => changeFunctionState(<ProjectValuations/>)}>Valuation</Button>
 			  <Button flat onClick={() => changeFunctionState(<BondPrices/>)}>Bond Prices</Button>
+                                        <Button flat onClick={() =>  changeFunctionState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
+
+
+
 			</div>
 		);
 	}
@@ -173,7 +177,6 @@ class DerivRiskMgmtStateManager extends Component
 			  <Button flat onClick={() => this.changeState(<PutCallParity />)}>Put-Call parity</Button>
 			  <Button flat onClick={() => this.changeState(<ProjectEvaluations/>)}>Evaluations</Button>
 			  <Button flat onClick={() => this.changeState(<BondPrices/>)}>Bond Prices</Button>
-			  <Button flat onClick={() => this.changeState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
 
 			</div>
 		);
@@ -182,7 +185,8 @@ class DerivRiskMgmtStateManager extends Component
 
 
 /*
-	This class will tell the app which finance topic will go in the function state picker
+    Class that determines which course content will be passed to the function state picker
+
  */
 class MasterStateManager extends Component
 {
