@@ -218,7 +218,7 @@ class MasterStateManager extends Component
 					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3402 </NavItem>
 					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3403 </NavItem>
 					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3404 </NavItem>
-					<NavItem onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3405 </NavItem>
+					<NavItem on onClick={() => changeTopicState(<CorpFinanceStateManager />)}> 3405 </NavItem>
 				</Navbar>
 			</div>
 		);

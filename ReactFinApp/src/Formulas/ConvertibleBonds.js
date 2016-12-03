@@ -12,7 +12,7 @@ export default class ConvertibleBonds extends Component
         {
             ratio: "",  // conversion ratio
             fv: "",     // face value
-            sp: "",     // stock price
+            sp: ""    // stock price
         };
 
         this.handleRatioChange = this.handleRatioChange.bind(this);
