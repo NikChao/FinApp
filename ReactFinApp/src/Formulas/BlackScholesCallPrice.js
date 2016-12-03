@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
+import { Table, Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
+import { getPut } from './GeneralFunctions.js';
 
 export default class BlackScholes extends Component
 {
@@ -15,7 +16,9 @@ export default class BlackScholes extends Component
             t: "", //time until option exercise
             K: "", //option strike price
             r: "", //risk free rate
-            sigma: "" //standard deviation
+            sigma: "", //standard deviation
+            arbitrage: false,
+            marketOptionPrice: 0
         };
 
         //method binding
@@ -23,13 +26,16 @@ export default class BlackScholes extends Component
         this.d1 = this.d1.bind(this);
         this.d2 = this.d2.bind(this);
         this.BlackScholesCallPrice = this.BlackScholesCallPrice.bind(this);
-
+        this.renderArbitrageBody = this.renderArbitrageBody.bind(this);
+        this.renderArbitrageDecision = this.renderArbitrageDecision.bind(this);
+        this.getPut = this.getPut.bind(this);
         // eventHandler binding
         this.handleSpotChange = this.handleSpotChange.bind(this);
         this.handleStrikeChange = this.handleStrikeChange.bind(this);
         this.handleTimeChange = this.handleTimeChange.bind(this);
         this.handleRfChange = this.handleRfChange.bind(this);
         this.handleSigmaChange = this.handleSigmaChange.bind(this);
+        this.handleMktCallChange = this.handleMktCallChange.bind(this);
     }
 
     BlackScholesCallPrice()
@@ -99,6 +105,98 @@ export default class BlackScholes extends Component
         this.setState({sigma: event.target.value});
     }
 
+    handleMktCallChange(event)
+    {
+        this.setState({marketOptionPrice: parseFloat(event.target.value)});
+    }
+
+    getPut()
+    {
+        return Math.max(this.BlackScholesCallPrice() + parseFloat(this.state.K)/Math.pow(1+parseFloat(this.state.r),parseFloat(this.state.t)) - parseFloat(this.state.S),0)
+    }
+
+    renderArbitrageDecision()
+    {
+        if(this.BlackScholesCallPrice() - this.state.marketOptionPrice > 0)
+        {
+            return (
+                <div>
+                    <p> underpriced </p>
+                    <Table>
+                        <thead>
+                            <tr>
+                            <th data-field="id">Position</th>
+                            <th data-field="t0"> t=0 </th>
+                            <th data-field="name">t=T, X > S</th>
+                            <th data-field="price">t=T, S > X</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                            <td>Buy Call</td>
+                            <td>{-this.state.marketOptionPrice}</td>
+                            <td>0</td>
+                            <td>St - X</td>
+                            </tr>
+                            <tr>
+                            <td>Sell Put</td>
+                            <td> {this.getPut()} </td>
+                            <td>St - X</td>
+                            <td>0</td>
+                            </tr>
+                            <tr>
+                            <td> Invest PV(X) </td>
+                            <td> {-parseFloat(this.state.K)/Math.pow((1 + parseFloat(this.state.r)),parseFloat(this.state.t))} </td>
+                            <td>{this.state.K} (+X)</td>
+                            <td>{this.state.K} (+X)</td>
+                            </tr>
+                            <tr>
+                            <td>Short Sell Stock</td>
+                            <td>{this.state.S}</td>
+                            <td>-St</td>
+                            <td>-St</td>
+                            </tr>
+                            <tr>
+                            <td>Total</td>
+                            <td>{-this.state.marketOptionPrice + this.getPut() + parseFloat(this.state.S) -parseFloat(this.state.K)/Math.pow((1 + parseFloat(this.state.r)),parseFloat(this.state.t)) }</td>
+                            <td>0</td>
+                            <td>0</td>
+                            </tr>
+                        </tbody>
+                    </Table>
+                </div>
+            );
+        } else if(this.BlackScholesCallPrice() - this.state.marketOptionPrice < 0){
+            return (
+                <div>
+                <p> overpriced </p>
+                {this.renderArbitrageDecision()}
+                </div>
+            );
+        } else {
+            return (<p> No Arbitrage </p>);
+        }
+    }
+
+    renderArbitrageBody()
+    {
+        if(this.state.arbitrage == true)
+        {
+            return (
+                <div>
+                    <Input label="Market Call Price" value={this.state.value} onChange={this.handleMktCallChange} />
+                    {this.renderArbitrageDecision()}
+                </div>
+            );
+        } else {
+            return (
+                <div></div> // Empty Div, they don't want to find arbitrage
+            );
+        }
+
+    }
+
     render()
     {
         return (
@@ -109,6 +207,12 @@ export default class BlackScholes extends Component
                 <Input label="Time to expiry" value={this.state.value} onChange={this.handleTimeChange} />
                 <Input label="Risk free rate" value={this.state.value} onChange={this.handleRfChange} />
                 <p> Black-Scholes Call Price: {this.BlackScholesCallPrice()} </p>
+                <br></br>
+                <p> Arbitrage? </p>
+                <Row>
+                  <Input name='on' type='switch' value='1' onChange={() => this.setState({arbitrage: !this.state.arbitrage})}/>
+                </Row>
+                {this.renderArbitrageBody()}
             </div>
         );
     }

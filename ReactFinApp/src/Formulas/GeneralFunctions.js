@@ -151,7 +151,10 @@ function increaseNWC(previousNWC, currentNWC)
     return currentNWC - previousNWC;
 }
 
-
+function getPut(call, strike, time, rf, spot)
+{
+    return Math.max(call + strike * Math.pow(Math.E, -1 * time * rf) - spot,0);
+}
 export {
     pv,
     fv,
