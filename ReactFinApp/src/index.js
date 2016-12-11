@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
 //React Materialize components
-import { Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
+import { Tabs, Tab, Row, Button, Icon, Dropdown, Navbar, NavItem, Input } from 'react-materialize';
 
 // Formula Classes
 import PutCallParity from './Formulas/PutCallParity.js';
@@ -139,25 +138,24 @@ class CorpFinanceStateManager extends Component
 	render()
 	{
 		return (
-                            <div>
-                            <h4> Corporate Finance Functions </h4>
+	        <div>
+		        <h4> Corporate Finance Functions </h4>
 
-                            <Button flat onClick={() => changeFunctionState(<GeneralEquations />)}>General Equations</Button>
+		        <Button flat onClick={() => changeFunctionState(<GeneralEquations />)}>General Equations</Button>
 
-                            <Button flat onClick={() => changeFunctionState(<CapitalAssetPricingModel />)}>CAPM</Button>
+		        <Button flat onClick={() => changeFunctionState(<CapitalAssetPricingModel />)}>CAPM</Button>
 
-                            <Button flat onClick={() => changeFunctionState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
-                            <Button flat onClick={() => changeFunctionState(<ProjectValuations/>)}>Corporate Valuation</Button>
-                            <Button flat onClick={() => changeFunctionState(<FinancialOptions/>)}>Financial Options</Button>
+		        <Button flat onClick={() => changeFunctionState(<WeightedAverageCostOfCapital />)}>Wacc</Button>
+		        <Button flat onClick={() => changeFunctionState(<ProjectValuations/>)}>Corporate Valuation</Button>
+		        <Button flat onClick={() => changeFunctionState(<FinancialOptions/>)}>Financial Options</Button>
 
 
-                            <Button flat onClick={() => changeFunctionState(<PutCallParity />)}>Put-Call parity</Button>
-                            <Button flat onClick={() => changeFunctionState(<BlackScholes />)}>B-S Model</Button>
+		        <Button flat onClick={() => changeFunctionState(<PutCallParity />)}>Put-Call parity</Button>
+		        <Button flat onClick={() => changeFunctionState(<BlackScholes />)}>B-S Model</Button>
 
-                            <Button flat onClick={() => changeFunctionState(<BondPrices/>)}>Bond Prices</Button>
-                            <Button flat onClick={() =>  changeFunctionState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
-
-                            </div>
+		        <Button flat onClick={() => changeFunctionState(<BondPrices/>)}>Bond Prices</Button>
+		        <Button flat onClick={() =>  changeFunctionState(<ConvertibleBonds/>)}>Convertible Bonds</Button>
+	        </div>
 		);
 	}
 }
@@ -196,7 +194,16 @@ class DerivRiskMgmtStateManager extends Component
 	}
 }
 
-
+  function getMoviesFromApiAsync() {
+    return fetch('http://localhost:53129/api/3401/weightedaveragecostofcapital')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        return responseJson;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
 /*
     Class that determines which course content will be passed to the function state picker
 
@@ -206,7 +213,9 @@ class MasterStateManager extends Component
 	constructor(props)
 	{
 		super(props);
+        console.log(getMoviesFromApiAsync());
 	}
+
 
 	render()
 	{

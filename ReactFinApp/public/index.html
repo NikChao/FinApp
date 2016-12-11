@@ -18,11 +18,13 @@
     <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css">
 
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('.dropdown-button').dropdown();
-      });
-    </script>
+    <script>$(document).ready(function(){
+        $(".button-collapse").sideNav();
+        $('.parallax').parallax();
+        $(".dropdown-button").dropdown({
+            hover: false
+        });
+    });</script>
 
     <title>React App</title>
   </head>
