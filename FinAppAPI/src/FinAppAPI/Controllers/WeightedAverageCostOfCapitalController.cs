@@ -15,7 +15,7 @@ namespace WebApplication2.Controllers
         public decimal WACC { get; set; }
     }
 
-    [Route("api/3401/[controller]")]
+    [Route("api/[controller]")]
     public class WeightedAverageCostOfCapitalController : Controller
     {
         [HttpGet]

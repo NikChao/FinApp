@@ -59,7 +59,7 @@ export default class PutCallParity extends Component
 
     getPut()
     {
-        return Math.max(this.state.callVal + this.state.strike * Math.pow(Math.E, -1 * this.state.time * this.state.rf) - this.state.spot,0);
+        do API call
     }
 
     getCall()
