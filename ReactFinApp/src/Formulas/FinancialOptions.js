@@ -20,38 +20,27 @@ export default class FinancialOptions extends Component
         };
 
         // method binding
-        this.makeTableFromOptionArray = this.makeTableFromOptionArray.bind(this);
         this.handleAddOption = this.handleAddOption.bind(this);
         this.handleOptionalCheckbox = this.handleOptionalCheckbox.bind(this);
         this.renderList = this.renderList.bind(this);
+
         this.renderTable = this.renderTable.bind(this);
-        this.changeArray = this.changeArray.bind(this);
+        this.renderTableHeadings = this.renderTableHeadings.bind(this);
 
         this.addPlaceHolderObjects = this.addPlaceHolderObjects.bind(this);
-    }
-
-    changeArray() {
     }
 
     handleAddOption(event)
     {
         event.preventDefault();
         var nameComponent = document.getElementById("option-name").value; // get name
-        var actionComponent = document.getElementById("option-action".value); // get action
-        var priceComponent = document.getElementById("option-price".value); // get price
+        var actionComponent = document.getElementById("option-action").value; // get action
+        var priceComponent = document.getElementById("option-price").value; // get price
         var newOptionObject = {name: nameComponent, action: actionComponent, price: priceComponent}; // create object
         var dupArrayOptions = this.state.arrayOptions.slice(); // duplicate array
         dupArrayOptions.push(newOptionObject); // add object to array
         this.setState({arrayOptions: dupArrayOptions}); // update state
 
-/*
-       // testing
-        var oneElement = document.getElementById("example");
-        var twoElement = document.getElementById("test");
-        //oneElement.innerHTML=this.state.arrayOptions[0];
-        var size = this.state.arrayOptions.length
-        oneElement.innerHTML=this.state.arrayOptions[0].name;
-*/
     }
 
     handleOptionalCheckbox() {
@@ -69,10 +58,10 @@ export default class FinancialOptions extends Component
     renderList() {
         var arrayOptionDescription = [];
         for (var i = 0; i < this.state.arrayOptions.length; i++) {
-            var string = "option: " + this.state.arrayOptions[i].action + this.state.arrayOptions[i].name + " price: " + this.state.arrayOptions[i].price;
+            var string = "option: " + this.state.arrayOptions[i].action + " " + this.state.arrayOptions[i].name
+                    + " price: " + this.state.arrayOptions[i].price;
             arrayOptionDescription.push(string);
         }
-
         const listOptionDescription = arrayOptionDescription.map((description) => <li>{description}</li>);
         return listOptionDescription;
     }
@@ -80,53 +69,45 @@ export default class FinancialOptions extends Component
     renderTable() {
 
     }
+    renderTableHeadings() {
+      /*  var listTableHeadings = [];
+        // writing first heading
+        var string = "0 < " + this.state.arrayOptions[i].price;
+        listTableHeadings.push(string);
+
+        // writing middle headings
+        for (var i = 1; i < this.state.arrayOptions.length - 1; i++) {
+            var string = this.state.arrayOptions[i].price + " < " + this.state.arrayOptions[i + 1].price;
+            listTableHeadings.push(string);
+        }
+
+        // writing last heading
+        var string = this.state.arrayOptions[i].price + " >  x";
+        listTableHeadings.push(string);
+        const listElement = listTableHeadings.map((heading) => <th>{heading}</th>);
+        return listElement;*/
+    }
 
     addPlaceHolderObjects() {
-        if (this.state.arrayOptions.length == 0) {
+        /*if (this.state.arrayOptions.length == 0) {
             var one = {name: "oneName", action: "oneAction", price: "onePrice"};
-            var two = {name: "twoName", action: "twoAction", price: "twoPrice"};
-            var three = {name: "threeName", action: "threeAction", price: "threePrice"};
+            //var two = {name: "twoName", action: "twoAction", price: "twoPrice"};
+            //var three = {name: "threeName", action: "threeAction", price: "threePrice"};
             var arrayPlaceholder = [];
             arrayPlaceholder.push(one);
-            arrayPlaceholder.push(two);
-            arrayPlaceholder.push(three);
+            //arrayPlaceholder.push(two);
+            //arrayPlaceholder.push(three);
             this.setState({arrayOptions: arrayPlaceholder});
-        }
+        } */
     }
 
-    makeTableFromOptionArray (name, x)
-    {
-    // Should add a new row for each element in array - for option
-    // Should add column for each element in array - for range 0 < X < 50... etc....
-    // Will need a function that mutates the table based on number of elements in array
-    // table should be scrollable sideways
-    /*return (
-        <div>
-            <table>
-                <thead>
-                    <th> Option </th>
-                    <th> P1 </th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th> {this.state.currentArray[2]} </th>
-                        <th> {this.state.x} </th>
-                    </tr>
-                    <tr>
-                        <th> {this.state.currentArray[3]} </th>
-                        <th> {this.state.x} </th>
-                    </tr>
-                </tbody>
-            </table>
-        </div>);
-    }*/
-    }
+
 
     render()
     {
         return (
             <div>
-                <form id="add-option-layout">
+                <form>
                       <Input id="option-name" type='select' label="Financial Option">
                         <option value='- select -'> </option>
                         <option value='put'>Put</option>
@@ -157,8 +138,7 @@ export default class FinancialOptions extends Component
 
                 <div id="option-content">
                     <table>
-                        <thead>
-                        </thead>
+                        <thead> {this.renderTableHeadings()} </thead>
                         <tbody>
 
                         </tbody>
@@ -182,3 +162,41 @@ export default class FinancialOptions extends Component
         );
     }
 }
+/*
+    makeTableFromOptionArray (name, x)
+    {
+    // Should add a new row for each element in array - for option
+    // Should add column for each element in array - for range 0 < X < 50... etc....
+    // Will need a function that mutates the table based on number of elements in array
+    // table should be scrollable sideways
+    return (
+        <div>
+            <table>
+                <thead>
+                    <th> Option </th>
+                    <th> P1 </th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th> {this.state.currentArray[2]} </th>
+                        <th> {this.state.x} </th>
+                    </tr>
+                    <tr>
+                        <th> {this.state.currentArray[3]} </th>
+                        <th> {this.state.x} </th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>);
+    }
+    }*/
+
+
+/*
+       // testing
+        var oneElement = document.getElementById("example");
+        var twoElement = document.getElementById("test");
+        //oneElement.innerHTML=this.state.arrayOptions[0];
+        var size = this.state.arrayOptions.length
+        oneElement.innerHTML=this.state.arrayOptions[0].name;
+*/
