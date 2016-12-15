@@ -16,9 +16,7 @@ export default class FinancialOptions extends Component
             // price: "",       // to retrieve text in price input
 
             // Messing arround below
-            arrayOptions: [],
-            name: ""
-
+            arrayOptions: []
         };
 
         // method binding
@@ -28,44 +26,35 @@ export default class FinancialOptions extends Component
         this.renderList = this.renderList.bind(this);
         this.renderTable = this.renderTable.bind(this);
         this.changeArray = this.changeArray.bind(this);
+
+        this.addPlaceHolderObjects = this.addPlaceHolderObjects.bind(this);
     }
 
     changeArray() {
-        //var arrayOption = ['3', '2', '];
-        //this.setState({arrayOptions: arrayOption});
-
     }
 
     handleAddOption(event)
     {
-        var nameComponent = document.getElementById("option-name").value;
-        var actionComponent = document.getElementById("option-action".value);
-        var newOptionObject = {name: nameComponent, action: actionComponent};
-        var newArrayOptions = this.state.arrayOptions.slice();
-        newArrayOptions.push(newOptionObject);
-        this.setState({arrayOptions: newArrayOptions});
+        event.preventDefault();
+        var nameComponent = document.getElementById("option-name").value; // get name
+        var actionComponent = document.getElementById("option-action".value); // get action
+        var priceComponent = document.getElementById("option-price".value); // get price
+        var newOptionObject = {name: nameComponent, action: actionComponent, price: priceComponent}; // create object
+        var dupArrayOptions = this.state.arrayOptions.slice(); // duplicate array
+        dupArrayOptions.push(newOptionObject); // add object to array
+        this.setState({arrayOptions: dupArrayOptions}); // update state
 
+/*
        // testing
         var oneElement = document.getElementById("example");
         var twoElement = document.getElementById("test");
         //oneElement.innerHTML=this.state.arrayOptions[0];
+        var size = this.state.arrayOptions.length
         oneElement.innerHTML=this.state.arrayOptions[0].name;
-                //this.setState({marketOptionPrice: parseFloat(event.target.value)});
-
-
-
-
-        var threeElement = document.getElementById("example2");
-        var string = 'Swaggest';
-        for (var i = 0; i < this.arrayOptions.length; i++) {
-            string+= this.state.arrayOptions[i];
-        }
-        threeElement.innerHTML = string;
-
+*/
     }
 
     handleOptionalCheckbox() {
-
         var list = document.getElementById("c-option-list");
         var table = document.getElementById("c-payoff-table");
 
@@ -78,22 +67,33 @@ export default class FinancialOptions extends Component
 
     }
     renderList() {
-        var arrayNames = [];
-        /*
-
-         for (var i = 0; i < this.arrayOptions.length; i++) {
-            arrayNames.push(this.state.arrayOptions.name);
+        var arrayOptionDescription = [];
+        for (var i = 0; i < this.state.arrayOptions.length; i++) {
+            var string = "option: " + this.state.arrayOptions[i].action + this.state.arrayOptions[i].name + " price: " + this.state.arrayOptions[i].price;
+            arrayOptionDescription.push(string);
         }
 
-        */
-        const listOptionNames = arrayNames.map((name) => <li>{name}</li>);
-
-        return listOptionNames;
+        const listOptionDescription = arrayOptionDescription.map((description) => <li>{description}</li>);
+        return listOptionDescription;
     }
 
     renderTable() {
 
     }
+
+    addPlaceHolderObjects() {
+        if (this.state.arrayOptions.length == 0) {
+            var one = {name: "oneName", action: "oneAction", price: "onePrice"};
+            var two = {name: "twoName", action: "twoAction", price: "twoPrice"};
+            var three = {name: "threeName", action: "threeAction", price: "threePrice"};
+            var arrayPlaceholder = [];
+            arrayPlaceholder.push(one);
+            arrayPlaceholder.push(two);
+            arrayPlaceholder.push(three);
+            this.setState({arrayOptions: arrayPlaceholder});
+        }
+    }
+
     makeTableFromOptionArray (name, x)
     {
     // Should add a new row for each element in array - for option
@@ -132,12 +132,14 @@ export default class FinancialOptions extends Component
                         <option value='put'>Put</option>
                         <option value='call'>Call</option>
                       </Input>
-                      <Input id="option-action" type='select' label="Action">
+                      <Input id="option-action" type='select' label="Option Type">
                         <option value='- select -'> </option>
                         <option value='short'>Short</option>
                         <option value='long'>Long</option>
                       </Input>
-                      <Button id="add-option-btn" waves='light' onClick={this.handleAddOption}>Add Option</Button>
+                      <Input id="option-price" type='text' label="Option Price">
+                      </Input>
+                      <Button id="add-option-btn" waves='light' onClick={this.handleAddOption} >Add Option</Button>
                 </form>
 
                 <div id="optional-checkbox">
@@ -148,8 +150,21 @@ export default class FinancialOptions extends Component
                     <br />
                 </div>
 
+                <h1> {this.addPlaceHolderObjects()} </h1>
+
+                <p> <strong> Optional Diagrams </strong> </p>
+                <ul> {this.renderList()} </ul>
+
                 <div id="option-content">
-                    <ul> {this.renderList()} </ul>
+                    <table>
+                        <thead>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
+                    <ul> </ul>
                     <p id="table-content"> </p>
                 </div>
 

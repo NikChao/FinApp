@@ -59,7 +59,7 @@ export default class PutCallParity extends Component
 
     getPut()
     {
-        do API call
+        //do API call
     }
 
     getCall()
