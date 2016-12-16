@@ -25,7 +25,8 @@ export default class FinancialOptions extends Component
         this.renderList = this.renderList.bind(this);
 
         this.renderTable = this.renderTable.bind(this);
-        this.renderTableHeadings = this.renderTableHeadings.bind(this);
+        this.renderTableHeading = this.renderTableHeading.bind(this);
+        this.renderTableBody = this.renderTableBody.bind(this);
 
         this.addPlaceHolderObjects = this.addPlaceHolderObjects.bind(this);
     }
@@ -43,7 +44,8 @@ export default class FinancialOptions extends Component
 
     }
 
-    handleOptionalCheckbox() {
+    handleOptionalCheckbox()
+    {
         var list = document.getElementById("c-option-list");
         var table = document.getElementById("c-payoff-table");
 
@@ -67,10 +69,12 @@ export default class FinancialOptions extends Component
         return mappedOptionDescription;
     }
 
-    renderTable() {
-
+    renderTable()
+    {
     }
-    renderTableHeadings() {
+
+    renderTableHeading()
+    {
         var listTableHeadings = [];
         var heading;
 
@@ -78,6 +82,8 @@ export default class FinancialOptions extends Component
         for (var i = 0; i < this.state.listOptions.length; i++) {
             if (i === 0) {
                 // writing first heading
+                heading = "---";
+                listTableHeadings.push(heading);
                 heading = "0 < SP < " + this.state.listOptions[i].price;
             } else if (i === this.state.listOptions.length - 1) {
                 // writing last heading
@@ -91,23 +97,33 @@ export default class FinancialOptions extends Component
         }
 
         // mapping array of headings to react table heading element
-        const listElement = listTableHeadings.map((heading) => <th>{heading}</th>);
-        return listElement;
+        const listElement = listTableHeadings.map(
+            (heading) => <th>{heading}</th>
+        );
+        return <thead> {listElement} </thead>;
     }
 
-    addPlaceHolderObjects() {
-        /*if (this.state.arrayOptions.length == 0) {
-            var one = {name: "oneName", action: "oneAction", price: "onePrice"};
-            //var two = {name: "twoName", action: "twoAction", price: "twoPrice"};
-            //var three = {name: "threeName", action: "threeAction", price: "threePrice"};
-            var arrayPlaceholder = [];
-            arrayPlaceholder.push(one);
-            //arrayPlaceholder.push(two);
-            //arrayPlaceholder.push(three);
-            this.setState({arrayOptions: arrayPlaceholder});
-        } */
-    }
+    renderTableBody()
+    {
+        /*
+        var listTableHeadings = [];
+        var heading = 0;
+        // compute one row for each option
+        for (var i = 0; i < this.state.listOptions.length; i++) {
+            // compute N columns for each option
+            for(var i = 0; i < this.state.listOptions.length; i++) {
+                heading += 1;
+                listTableHeadings.push(heading);
+            }
+            const listElement = listTableHeadings.map(
+                (heading) => <th>{heading}</th>
+            );
+            var tableRow = <tr>{listElement}</tr>;
+        }
 
+        return <tbody>{tableRow}</tbody>;
+        */
+    }
 
 
     render()
@@ -145,12 +161,8 @@ export default class FinancialOptions extends Component
 
                 <div id="option-content">
                     <table>
-                        <thead>
-                            {this.renderTableHeadings()}
-                        </thead>
-                        <tbody>
-
-                        </tbody>
+                            {this.renderTableHeading()}
+                            {this.renderTableBody()}
                     </table>
 
                     <ul> </ul>
