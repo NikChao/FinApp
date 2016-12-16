@@ -16,7 +16,7 @@ export default class FinancialOptions extends Component
             // price: "",       // to retrieve text in price input
 
             // Messing arround below
-            arrayOptions: []
+            listOptions: []
         };
 
         // method binding
@@ -37,9 +37,9 @@ export default class FinancialOptions extends Component
         var actionComponent = document.getElementById("option-action").value; // get action
         var priceComponent = document.getElementById("option-price").value; // get price
         var newOptionObject = {name: nameComponent, action: actionComponent, price: priceComponent}; // create object
-        var dupArrayOptions = this.state.arrayOptions.slice(); // duplicate array
-        dupArrayOptions.push(newOptionObject); // add object to array
-        this.setState({arrayOptions: dupArrayOptions}); // update state
+        var dupListOptions = this.state.listOptions.slice(); // duplicate array
+        dupListOptions.push(newOptionObject); // add object to array
+        this.setState({listOptions: dupListOptions}); // update state
 
     }
 
@@ -57,35 +57,42 @@ export default class FinancialOptions extends Component
     }
     renderList() {
         var arrayOptionDescription = [];
-        for (var i = 0; i < this.state.arrayOptions.length; i++) {
-            var string = "option: " + this.state.arrayOptions[i].action + " " + this.state.arrayOptions[i].name
-                    + " price: " + this.state.arrayOptions[i].price;
+        for (var i = 0; i < this.state.listOptions.length; i++) {
+            var string = "Option Type: " + this.state.listOptions[i].name + " "
+                    "Option Action: " + this.state.listOptions[i].action + " " +
+                    " Option Price: " + this.state.listOptions[i].price;
             arrayOptionDescription.push(string);
         }
-        const listOptionDescription = arrayOptionDescription.map((description) => <li>{description}</li>);
-        return listOptionDescription;
+        const mappedOptionDescription = arrayOptionDescription.map((description) => <li>{description}</li>);
+        return mappedOptionDescription;
     }
 
     renderTable() {
 
     }
     renderTableHeadings() {
-      /*  var listTableHeadings = [];
-        // writing first heading
-        var string = "0 < " + this.state.arrayOptions[i].price;
-        listTableHeadings.push(string);
+        var listTableHeadings = [];
+        var heading;
 
-        // writing middle headings
-        for (var i = 1; i < this.state.arrayOptions.length - 1; i++) {
-            var string = this.state.arrayOptions[i].price + " < " + this.state.arrayOptions[i + 1].price;
-            listTableHeadings.push(string);
+        // generating table heading string
+        for (var i = 0; i < this.state.listOptions.length; i++) {
+            if (i === 0) {
+                // writing first heading
+                heading = "0 < SP < " + this.state.listOptions[i].price;
+            } else if (i === this.state.listOptions.length - 1) {
+                // writing last heading
+                heading = this.state.listOptions[i].price + " < SP <  oo";
+            } else {
+                heading = this.state.listOptions[i].price + " < SP < " + this.state.listOptions[i + 1].price;
+            }
+
+            // adding heading string to array
+            listTableHeadings.push(heading);
         }
 
-        // writing last heading
-        var string = this.state.arrayOptions[i].price + " >  x";
-        listTableHeadings.push(string);
+        // mapping array of headings to react table heading element
         const listElement = listTableHeadings.map((heading) => <th>{heading}</th>);
-        return listElement;*/
+        return listElement;
     }
 
     addPlaceHolderObjects() {
@@ -138,7 +145,9 @@ export default class FinancialOptions extends Component
 
                 <div id="option-content">
                     <table>
-                        <thead> {this.renderTableHeadings()} </thead>
+                        <thead>
+                            {this.renderTableHeadings()}
+                        </thead>
                         <tbody>
 
                         </tbody>
