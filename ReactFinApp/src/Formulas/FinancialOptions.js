@@ -27,8 +27,6 @@ export default class FinancialOptions extends Component
         this.renderTable = this.renderTable.bind(this);
         this.renderTableHeading = this.renderTableHeading.bind(this);
         this.renderTableBody = this.renderTableBody.bind(this);
-
-        this.addPlaceHolderObjects = this.addPlaceHolderObjects.bind(this);
     }
 
     handleAddOption(event)
@@ -66,11 +64,21 @@ export default class FinancialOptions extends Component
             arrayOptionDescription.push(string);
         }
         const mappedOptionDescription = arrayOptionDescription.map((description) => <li>{description}</li>);
-        return mappedOptionDescription;
+        return (
+            <div>
+                <p> <strong> List of Current Options </strong> </p>
+                <ul>
+                    {mappedOptionDescription}
+                </ul>
+            </div>
+        );
     }
 
     renderTable()
     {
+        /* <table> </table> tags from return statement of tableheading and tablebody function needs to be removed
+        and added here. the prior functions need to return the <thead> and <tbody> to this function where they will be wrapped
+        in a <table> tag */
     }
 
     renderTableHeading()
@@ -100,13 +108,19 @@ export default class FinancialOptions extends Component
         const listElement = listTableHeadings.map(
             (heading) => <th>{heading}</th>
         );
-        return <thead> {listElement} </thead>;
+        return (
+            <div>
+                <p> <strong> Payoff-Table </strong> </p>
+                <table>
+                    <thead> {listElement} </thead>
+                </table>
+            </div>
+        );
     }
 
     renderTableBody()
     {
-        /*
-        var listTableHeadings = [];
+        /* var listTableHeadings = [];
         var heading = 0;
         // compute one row for each option
         for (var i = 0; i < this.state.listOptions.length; i++) {
@@ -121,8 +135,9 @@ export default class FinancialOptions extends Component
             var tableRow = <tr>{listElement}</tr>;
         }
 
-        return <tbody>{tableRow}</tbody>;
-        */
+        return (
+            <table><tbody>{tableRow}</tbody><table>
+        ); */
     }
 
 
@@ -130,7 +145,7 @@ export default class FinancialOptions extends Component
     {
         return (
             <div>
-                <form>
+                <form id="add-option-form">
                       <Input id="option-name" type='select' label="Financial Option">
                         <option value='- select -'> </option>
                         <option value='put'>Put</option>
@@ -146,7 +161,7 @@ export default class FinancialOptions extends Component
                       <Button id="add-option-btn" waves='light' onClick={this.handleAddOption} >Add Option</Button>
                 </form>
 
-                <div id="optional-checkbox">
+                <div id="optional-features-checkbox">
                     <p> <strong> Optional Diagrams </strong> </p>
                     <Input label="List Of Optinos" type="checkbox" value="table" name="c-option-list" id="c-option-list" />
                     <br />
@@ -154,32 +169,15 @@ export default class FinancialOptions extends Component
                     <br />
                 </div>
 
-                <h1> {this.addPlaceHolderObjects()} </h1>
-
-                <p> <strong> Optional Diagrams </strong> </p>
-                <ul> {this.renderList()} </ul>
-
-                <div id="option-content">
-                    <table>
-                            {this.renderTableHeading()}
-                            {this.renderTableBody()}
-                    </table>
-
-                    <ul> </ul>
-                    <p id="table-content"> </p>
+                <div id="content-option-list">
+                    {this.renderList()}
                 </div>
 
-                <br /> <br /> <br />
-
-                <div id="testing">
-                    <p id="example">swagger</p>
-                    <Input id="test" label="test" onChange={this.handleAddOption} />
-                    <p id="example2"> empty </p>
+                <div id="content-option-payoff-table">
+                    {this.renderTableHeading()}
+                    {this.renderTableBody()}
                 </div>
-
-
             </div>
-            /* add divisions for list and table */
         );
     }
 }
