@@ -1,5 +1,5 @@
---temp-output:C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\obj\Debug\netcoreapp1.0\
---out:C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\bin\Debug\netcoreapp1.0\WebApplication2.dll
+--temp-output:C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\obj\Debug\netcoreapp1.0\
+--out:C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\bin\Debug\netcoreapp1.0\FinAppAPI.dll
 --define:DEBUG
 --define:TRACE
 --define:NETCOREAPP1_0
@@ -8,7 +8,7 @@
 --suppress-warning:CS1705
 --optimize:False
 --emit-entry-point:True
---output-name:WebApplication2
+--output-name:FinAppAPI
 --file-version:1.0.0.0
 --version:1.0.0.0
 --informational-version:1.0.0
@@ -174,9 +174,13 @@
 --reference:C:\Users\Nik\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\Nik\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\Nik\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\obj\Debug\netcoreapp1.0\WebApplication2dotnet-compile.deps.json",WebApplication2.deps.json
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\Program.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\Startup.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\Controllers\BlackScholesController.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\Controllers\ValuesController.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\WebApplication2\Controllers\WeightedAverageCostOfCapitalController.cs
+--resource:"C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\obj\Debug\netcoreapp1.0\FinAppAPIdotnet-compile.deps.json",FinAppAPI.deps.json
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Program.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Startup.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Controllers\BlackScholesController.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Controllers\OptionsController.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Controllers\WeightedAverageCostOfCapitalController.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\OptionsService.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\ValuationService.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\Interfaces\IOptionsService.cs
+C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\Interfaces\IValuationService.cs
