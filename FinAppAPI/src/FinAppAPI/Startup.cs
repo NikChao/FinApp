@@ -42,6 +42,7 @@ namespace FinAppAPI
             services.AddMvc();
 
             //Dependency Injection Container
+            //Todo: change to AutoFac later
             services.AddTransient<IOptionService, OptionService>();
             services.AddTransient<IValuationService, ValuationService>();
         }

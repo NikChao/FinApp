@@ -42,6 +42,26 @@ namespace FinAppAPI.Services
                 ? cashFlow/Math.Pow(1 + interestRate, t)
                 : cashFlow/Math.Pow(1 + interestRate, t) + NPV(cashFlow, interestRate, n - 1, t + 1);
 
+        public double NetWorkingCapital(double currentAssets, double currentLiabilities)
+            => currentAssets - currentLiabilities;
+
+        public double NetWorkingCapital(double cash, double accountsReceivable, double accountsPayable, double inventories, 
+            double bankOverdrafts, double taxesPayable)
+            => (cash + accountsReceivable + inventories)
+            - (bankOverdrafts + taxesPayable + accountsPayable);
+
+        public double ProjectCashFlowAfterTaxEbit(double ebit, double depreciation, double capex, double tc)
+            => ebit + depreciation - capex - tc;
+
+        public double ProjectCashFlowAfterTaxNetIncome(double netIncome, double depreciation, double capex,
+                double interestExpense)
+            => netIncome + depreciation - capex + interestExpense;
+
+        public double ProjectEconomicCashFlow(double ebit, double depreciation, double capex, double corporateIncomeTax,
+                double deltaDeferredTax,
+                double deltaNwc)
+            => ebit + depreciation - capex - corporateIncomeTax + deltaDeferredTax - deltaNwc;
+
         /*
          * Usage: interval is a fraction discribing how many years is in between each payment
          * i.e. semi-annual = 0.5
