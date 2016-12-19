@@ -6,29 +6,27 @@ using FinAppAPI.Services.Interfaces;
 
 namespace FinAppAPI.Services
 {
-    public class OptionsService : IOptionsService
+    public class OptionService : IOptionService
     {
         public double D1(double spot, double strike, double riskFree, double stDeviation, double time)
-        {
-            return (Math.Log(spot/strike, Math.E) + (riskFree + (Math.Pow(stDeviation, 2)/2))*time)/(stDeviation * Math.Sqrt(time));
-        }
+            => (Math.Log(spot / strike, Math.E) + (riskFree + (Math.Pow(stDeviation, 2) / 2)) * time) / (stDeviation * Math.Sqrt(time));
+
 
         public double D2(double d1, double spot, double time)
-        {
-            return d1 - spot*Math.Sqrt(time);
-        }
+            => d1 - spot * Math.Sqrt(time);
+
 
         public double BlackScholesCall(double spot, double strike, double riskFree, double stDeviation, double time)
         {
             double d1 = D1(spot, strike, riskFree, stDeviation, time);
             double d2 = D2(d1, spot, time);
-            double call = spot*N(d1) - N(d2)*strike*Math.Pow(Math.E, -riskFree*time);
+            double call = spot * N(d1) - N(d2) * strike * Math.Pow(Math.E, -riskFree * time);
             return call;
         }
 
         public double BlackScholesPut(double spot, double strike, double riskFree, double stDeviation, double time)
         {
-            return BlackScholesCall(spot, strike, riskFree, stDeviation,time) + strike*Math.Pow(Math.E, -riskFree*time) - spot;
+            return BlackScholesCall(spot, strike, riskFree, stDeviation, time) + strike * Math.Pow(Math.E, -riskFree * time) - spot;
         }
 
         public double N(double z)
@@ -54,10 +52,10 @@ namespace FinAppAPI.Services
         }
 
         #region Arbitrage Capture PlaceHolders
-        private static object OverPricedCall => new {}; 
-        private static object UnderPricedCall => new {};
-        private static object OverPricedPut => new {};
-        private static object UnderPricedPut => new {};
+        private static object OverPricedCall => new { };
+        private static object UnderPricedCall => new { };
+        private static object OverPricedPut => new { };
+        private static object UnderPricedPut => new { };
         #endregion 
 
         public object ArbitrageCapture(double expectedPrice, double actualPrice, double riskFree, double strike,
@@ -71,4 +69,5 @@ namespace FinAppAPI.Services
         }
 
     }
+
 }

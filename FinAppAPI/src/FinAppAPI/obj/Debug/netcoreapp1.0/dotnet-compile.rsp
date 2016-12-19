@@ -1,5 +1,5 @@
---temp-output:C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\obj\Debug\netcoreapp1.0\
---out:C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\bin\Debug\netcoreapp1.0\FinAppAPI.dll
+--temp-output:c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\obj\Debug\netcoreapp1.0\
+--out:c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\bin\Debug\netcoreapp1.0\FinAppAPI.dll
 --define:DEBUG
 --define:TRACE
 --define:NETCOREAPP1_0
@@ -174,13 +174,12 @@
 --reference:C:\Users\Nik\.nuget\packages\System.Threading.Timer\4.0.1\ref\netstandard1.2\System.Threading.Timer.dll
 --reference:C:\Users\Nik\.nuget\packages\System.Xml.ReaderWriter\4.0.11\ref\netstandard1.3\System.Xml.ReaderWriter.dll
 --reference:C:\Users\Nik\.nuget\packages\System.Xml.XDocument\4.0.11\ref\netstandard1.3\System.Xml.XDocument.dll
---resource:"C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\obj\Debug\netcoreapp1.0\FinAppAPIdotnet-compile.deps.json",FinAppAPI.deps.json
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Program.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Startup.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Controllers\BlackScholesController.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Controllers\OptionsController.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Controllers\WeightedAverageCostOfCapitalController.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\OptionsService.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\ValuationService.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\Interfaces\IOptionsService.cs
-C:\Users\Nik\Desktop\FinApp\FinAppAPI\src\FinAppAPI\Services\Interfaces\IValuationService.cs
+--resource:"c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\obj\Debug\netcoreapp1.0\FinAppAPIdotnet-compile.deps.json",FinAppAPI.deps.json
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Program.cs
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Startup.cs
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Controllers\BlackScholesController.cs
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Services\CapitalStructureService.cs
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Services\OptionService.cs
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Services\Interfaces\ICapitalStructureServiceService.cs
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Services\Interfaces\ICostOfCapitalService.cs
+c:\users\nik\documents\visual studio 2015\Projects\FinAppAPI\src\FinAppAPI\Services\Interfaces\IOptionService.cs

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using FinAppAPI.Services;
@@ -10,13 +14,13 @@ namespace FinAppAPI.Controllers
     public class BlackScholesController : Controller
     {
         #region Fields
-        private readonly IOptionsService _optionService;
+        private readonly IOptionService _optionService;
         #endregion
-        
-        #region Constructor
+
+        #region Initialization
         public BlackScholesController()
         {
-            _optionService = new OptionsService();
+            _optionService = new OptionService();
         }
         #endregion
 
@@ -27,15 +31,16 @@ namespace FinAppAPI.Controllers
         {
             var response = new
             {
-                OptionPrices = new {
-                Call = _optionService.BlackScholesCall(spot.GetValueOrDefault(), strike.GetValueOrDefault(), riskFree.GetValueOrDefault(), stDeviation.GetValueOrDefault(), time.GetValueOrDefault()),
-                Put = _optionService.BlackScholesPut(spot.GetValueOrDefault(), strike.GetValueOrDefault(), riskFree.GetValueOrDefault(), stDeviation.GetValueOrDefault(), time.GetValueOrDefault())
+                OptionPrices = new
+                {
+                    Call = _optionService.BlackScholesCall(spot.GetValueOrDefault(), strike.GetValueOrDefault(), riskFree.GetValueOrDefault(), stDeviation.GetValueOrDefault(), time.GetValueOrDefault()),
+                    Put = _optionService.BlackScholesPut(spot.GetValueOrDefault(), strike.GetValueOrDefault(), riskFree.GetValueOrDefault(), stDeviation.GetValueOrDefault(), time.GetValueOrDefault())
                 },
                 Status = "Ok"
             };
-            
-            return Content(JsonConvert.SerializeObject(response, 
-                Formatting.Indented, new JsonConverter[] { new StringEnumConverter() }), 
+
+            return Content(JsonConvert.SerializeObject(response,
+                Formatting.Indented, new JsonConverter[] { new StringEnumConverter() }),
                 "application/json");
         }
         #endregion

@@ -1,6 +1,6 @@
 ﻿namespace FinAppAPI.Services.Interfaces
 {
-    public interface IOptionsService
+    public interface IOptionService
     {
         double D1(double spot, double strike, double riskFree, double stDeviation, double time);
         double D2(double d1, double spot, double time);
