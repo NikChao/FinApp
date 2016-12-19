@@ -19,9 +19,9 @@ namespace FinAppAPI.Services
         #endregion
 
         #region Initialize
-        public ProjectComponent()
+        public ProjectComponent(IValuationService valuationService)
         {
-            _valuationService = new ValuationService(); //TODO: make this dependency injection
+            _valuationService = valuationService;
         }
         #endregion
 

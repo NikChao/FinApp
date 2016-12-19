@@ -18,9 +18,9 @@ namespace FinAppAPI.Controllers
         #endregion
 
         #region Initialization
-        public BlackScholesController()
+        public BlackScholesController(IOptionService optionService)
         {
-            _optionService = new OptionService();
+            _optionService = optionService;
         }
         #endregion
 
