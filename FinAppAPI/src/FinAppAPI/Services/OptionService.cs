@@ -6,14 +6,52 @@ using FinAppAPI.Services.Interfaces;
 
 namespace FinAppAPI.Services
 {
+    #region Helper Classes
+    public class Slope
+    {
+        public double m { get; set; }
+        public double c { get; set; }
+    }
+
+    public class MultipleOptionPayoff
+    {
+        public IEnumerable<Option> Options { get; set; }
+    }
+
+    public class Option
+    {
+        public double Strike { get; set; }
+        public double Cost { get; set; }
+        public string OptionType { get; set; }
+    }
+
+    public class ArbitrageCapture
+    {
+        public object TimeZero { get; set; }
+        public object MaturityStrikeMoreThanSpot { get; set; }
+        public object MaturitySpotMoreThanStrike { get; set; }
+    }
+    #endregion
+
     public class OptionService : IOptionService
     {
         public double D1(double spot, double strike, double riskFree, double stDeviation, double time)
             => (Math.Log(spot / strike, Math.E) + (riskFree + (Math.Pow(stDeviation, 2) / 2)) * time) / (stDeviation * Math.Sqrt(time));
 
-
         public double D2(double d1, double spot, double time)
             => d1 - spot * Math.Sqrt(time);
+
+        public Option OptionPayoff(double strike, double optionCost = 1, bool isOwned = true, bool isCall = true)
+            => new Option { Strike = strike, Cost = optionCost, OptionType = isCall ? "Call" : "Put" };
+
+        public MultipleOptionPayoff MultipleOptionPayoff(IList<Option> options)
+            => new MultipleOptionPayoff();
+
+        public double CallFromPut(double put, double spot, double strike, double interest, double time)
+            => put + spot - strike*Math.Pow(1 + interest, -time);
+
+        public double PutFromCall(double call, double spot, double strike, double interest, double time)
+            => call - spot + strike*Math.Pow(1 + interest, -time);
 
 
         public double BlackScholesCall(double spot, double strike, double riskFree, double stDeviation, double time)
@@ -52,20 +90,21 @@ namespace FinAppAPI.Services
         }
 
         #region Arbitrage Capture PlaceHolders
-        private static object OverPricedCall => new { };
-        private static object UnderPricedCall => new { };
-        private static object OverPricedPut => new { };
-        private static object UnderPricedPut => new { };
+        private static ArbitrageCapture OverPricedCall(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
+        private static ArbitrageCapture UnderPricedCall(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
+        private static ArbitrageCapture OverPricedPut(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
+        private static ArbitrageCapture UnderPricedPut(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
         #endregion 
 
-        public object ArbitrageCapture(double expectedPrice, double actualPrice, double riskFree, double strike,
-            double spot, bool isCall)
+        public ArbitrageCapture ArbitrageCapture(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall)
         {
             if (isCall)
             {
-                return expectedPrice > actualPrice ? UnderPricedCall : OverPricedCall;
+                return fairPrice > actualPrice ? UnderPricedCall(fairPrice, actualPrice, riskFree, strike, spot, true) 
+                    : OverPricedCall(fairPrice, actualPrice, riskFree, strike, spot, true);
             }
-            return expectedPrice > actualPrice ? UnderPricedPut : OverPricedPut;
+            return fairPrice > actualPrice ? UnderPricedPut(fairPrice, actualPrice, riskFree, strike, spot, false)
+                : OverPricedPut(fairPrice, actualPrice, riskFree, strike, spot, false);
         }
 
     }
