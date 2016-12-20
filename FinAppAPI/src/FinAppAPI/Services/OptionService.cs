@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FinAppAPI.Services.Interfaces;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace FinAppAPI.Services
 {
@@ -91,16 +92,35 @@ namespace FinAppAPI.Services
 
         #region Arbitrage Capture PlaceHolders
         private static ArbitrageCapture OverPricedCall(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
-        private static ArbitrageCapture UnderPricedCall(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
+
+        private static ArbitrageCapture UnderPricedCall(double fairPrice, double actualPrice, double interest,
+            double strike, double spot, double time)
+        {
+            var capture = new ArbitrageCapture
+            {
+                TimeZero = new
+                {
+                    BuyCall = -actualPrice,
+                    SellPut = fairPrice - spot + strike*Math.Pow(1 + interest, -time),
+                    ShortSellStock = spot,
+                    BuyTbill = -strike*Math.Pow(1 + interest, -(double) time),
+                    NetPosition =
+                    -actualPrice + spot + fairPrice - spot + strike*Math.Pow(1 + interest, -time) -
+                    strike*Math.Pow(1 + interest, -time)
+                }
+            };
+            return capture;
+        }
+
         private static ArbitrageCapture OverPricedPut(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
         private static ArbitrageCapture UnderPricedPut(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall) => new ArbitrageCapture { };
         #endregion 
 
-        public ArbitrageCapture ArbitrageCapture(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall)
+        public ArbitrageCapture ArbitrageCapture(double fairPrice, double actualPrice, double riskFree, double strike, double spot, double time, bool isCall)
         {
             if (isCall)
             {
-                return fairPrice > actualPrice ? UnderPricedCall(fairPrice, actualPrice, riskFree, strike, spot, true) 
+                return fairPrice > actualPrice ? UnderPricedCall(fairPrice, actualPrice, riskFree, strike, spot, time) 
                     : OverPricedCall(fairPrice, actualPrice, riskFree, strike, spot, true);
             }
             return fairPrice > actualPrice ? UnderPricedPut(fairPrice, actualPrice, riskFree, strike, spot, false)

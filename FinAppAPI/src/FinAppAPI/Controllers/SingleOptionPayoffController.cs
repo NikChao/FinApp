@@ -11,14 +11,14 @@ using Newtonsoft.Json.Converters;
 namespace FinAppAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class OptionPayoffDiagramController : Controller
+    public class SingleOptionPayoffController : Controller
     {
         #region Fields
         private readonly IOptionService _optionService;
         #endregion
 
         #region Initialize
-        public OptionPayoffDiagramController(IOptionService optionService)
+        public SingleOptionPayoffController(IOptionService optionService)
         {
             _optionService = optionService;
         }

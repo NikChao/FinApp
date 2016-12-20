@@ -27,12 +27,12 @@ namespace FinAppAPI.Controllers
         #region Methods
         [HttpGet]
         public ActionResult Get(double fairPrice = 1, double actualPrice = 1, double riskFree = 1, 
-            double strike = 1, double spot = 1, bool isCall = true)
+            double strike = 1, double spot = 1, double time = 1, bool isCall = true)
         {
             var response = new
             {
                 Status = "Ok",
-                Data = _optionService.ArbitrageCapture(fairPrice, actualPrice, riskFree, strike, spot, isCall)
+                Data = _optionService.ArbitrageCapture(fairPrice, actualPrice, riskFree, strike, spot, time, isCall)
             };
 
             return Content(JsonConvert.SerializeObject(response, Formatting.Indented, 

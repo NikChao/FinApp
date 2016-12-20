@@ -15,6 +15,6 @@ namespace FinAppAPI.Services.Interfaces
         double BlackScholesCall(double spot, double strike, double riskFree, double stDeviation, double time);
         double BlackScholesPut(double spot, double strike, double riskFree, double stDeviation, double time);
         double N(double z);
-        ArbitrageCapture ArbitrageCapture(double fairPrice, double actualPrice, double riskFree, double strike, double spot, bool isCall);
+        ArbitrageCapture ArbitrageCapture(double fairPrice, double actualPrice, double riskFree, double strike, double spot, double time, bool isCall);
     }
 }
