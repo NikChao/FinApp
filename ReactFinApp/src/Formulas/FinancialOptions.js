@@ -120,24 +120,37 @@ export default class FinancialOptions extends Component
 
     renderTableBody()
     {
-        /* var listTableHeadings = [];
+
+        /*
+        var listTableHeadings = [];
+        var listTableRows = [];
         var heading = 0;
         // compute one row for each option
         for (var i = 0; i < this.state.listOptions.length; i++) {
             // compute N columns for each option
             for(var i = 0; i < this.state.listOptions.length; i++) {
+                // function that checks option type and action and returns value
                 heading += 1;
                 listTableHeadings.push(heading);
             }
+            // map values to <th>
             const listElement = listTableHeadings.map(
                 (heading) => <th>{heading}</th>
             );
-            var tableRow = <tr>{listElement}</tr>;
+            listTableRows.push(listElement);
+
+            //var tableRow = <tr>{listElement}</tr>;
         }
+        const listElementRow = listTableRows.map(
+                (row) => <tr>{row}</tr>
+        );
+
 
         return (
-            <table><tbody>{tableRow}</tbody><table>
-        ); */
+            <table>
+                <tbody>{listElementRow}</tbody>
+            </table>
+        );*/
     }
 
 
