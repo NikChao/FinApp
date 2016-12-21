@@ -121,36 +121,65 @@ export default class FinancialOptions extends Component
     renderTableBody()
     {
 
-        /*
-        var listTableHeadings = [];
-        var listTableRows = [];
+        var arrOne = [1,2,3];
+        var arrTwo = [2,3,4,];
+        var arrThree = [3,4,5];
+
+        const listOne = arrOne.map(
+            (one) => <th>{one}</th>
+        );
+        const listTwo = arrTwo.map(
+            (two) => <th>{two}</th>
+        );
+        const listThree = arrThree.map(
+            (three) => <th>{three}</th>
+        );
+
+        var arrayTH = [];
+        arrayTH.push(listOne);
+        arrayTH.push(listTwo);
+        arrayTH.push(listThree);
+
+        const listElementRow = arrayTH.map(
+            (swag) => <tr>{swag}</tr>
+        );
+
+
+
+/*
         var heading = 0;
+        var listRows = [];
+
         // compute one row for each option
         for (var i = 0; i < this.state.listOptions.length; i++) {
+            var listHeadings = [];
+
             // compute N columns for each option
             for(var i = 0; i < this.state.listOptions.length; i++) {
                 // function that checks option type and action and returns value
                 heading += 1;
-                listTableHeadings.push(heading);
+                listHeadings.push(heading);
             }
+
             // map values to <th>
-            const listElement = listTableHeadings.map(
-                (heading) => <th>{heading}</th>
+            const listElementHeading = listHeadings.map(
+                (headings) => <th>{headings}</th>
             );
-            listTableRows.push(listElement);
 
-            //var tableRow = <tr>{listElement}</tr>;
+            listRows.push(listElementHeading);
+
         }
-        const listElementRow = listTableRows.map(
-                (row) => <tr>{row}</tr>
-        );
 
+        const listElementRow = listRows.map(
+            (rows) => <tr>{rows}</tr>
+        );
+*/
 
         return (
             <table>
                 <tbody>{listElementRow}</tbody>
             </table>
-        );*/
+        );
     }
 
 
