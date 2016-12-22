@@ -11,11 +11,6 @@ export default class FinancialOptions extends Component
         // state
         this.state =
         {
-            // arrayOfOptions: [],      // Elements should be tuple of option name and option price
-            // name: "",        // to retrieve text in name input
-            // price: "",       // to retrieve text in price input
-
-            // Messing arround below
             listOptions: []
         };
 
@@ -38,7 +33,9 @@ export default class FinancialOptions extends Component
         var newOptionObject = {name: nameComponent, action: actionComponent, price: priceComponent}; // create object
         var dupListOptions = this.state.listOptions.slice(); // duplicate array
         dupListOptions.push(newOptionObject); // add object to array
-        this.setState({listOptions: dupListOptions}); // update state
+        this.setState(
+            {listOptions: dupListOptions}
+        ); // update state
 
     }
 
@@ -55,7 +52,30 @@ export default class FinancialOptions extends Component
         }
 
     }
-    renderList() {
+    renderList()
+    {
+        // render heading
+        var thead = ["Name", "Type", "Price"];
+        const mappedTableHead = thead.map(
+            (heading) => <th>{heading}</th>
+        );
+
+        var rows = [];
+        var row = [];
+        for (var i = 0; i < this.state.listOptions.length; i++) {
+            row.push(this.state.listOptions[i].name);
+            row.push(this.state.listOptions[i].action);
+            row.push(this.state.listOptions[i].price);
+            const mappedRow = row.map(
+                (column) => <th>{column}</th>
+            );
+            rows.push(mappedRow);
+        }
+
+        const mappedTableRow = rows.map(
+            (row) => <tr>{row}</tr>
+        );
+        /*
         var arrayOptionDescription = [];
         for (var i = 0; i < this.state.listOptions.length; i++) {
             var string = "Option Type: " + this.state.listOptions[i].name + " "
@@ -64,15 +84,25 @@ export default class FinancialOptions extends Component
             arrayOptionDescription.push(string);
         }
         const mappedOptionDescription = arrayOptionDescription.map((description) => <li>{description}</li>);
+        */
         return (
+            <table>
+                <thead>{mappedTableHead}</thead>
+                <tbody>{mappedTableRow}</tbody>
+            </table>
+
+        );
+    }
+
+    /*
+
             <div>
                 <p> <strong> List of Current Options </strong> </p>
                 <ul>
                     {mappedOptionDescription}
                 </ul>
             </div>
-        );
-    }
+     */
 
     renderTable()
     {
@@ -109,18 +139,13 @@ export default class FinancialOptions extends Component
             (heading) => <th>{heading}</th>
         );
         return (
-            <div>
-                <p> <strong> Payoff-Table </strong> </p>
-                <table>
-                    <thead> {listElement} </thead>
-                </table>
-            </div>
+                <thead> {listElement} </thead>
         );
     }
 
     renderTableBody()
     {
-
+/*
         var arrOne = [1,2,3];
         var arrTwo = [2,3,4,];
         var arrThree = [3,4,5];
@@ -141,27 +166,24 @@ export default class FinancialOptions extends Component
         arrayTH.push(listThree);
 
         const listElementRow = arrayTH.map(
-            (swag) => <tr>{swag}</tr>
+            (one) => <th>{one}</th>
         );
+*/
 
-
-
-/*
+        var listHeadings;
         var heading = 0;
         var listRows = [];
+        var listNewRows = [];
 
-        // compute one row for each option
         for (var i = 0; i < this.state.listOptions.length; i++) {
-            var listHeadings = [];
-
+            listHeadings = [];
             // compute N columns for each option
             for(var i = 0; i < this.state.listOptions.length; i++) {
                 // function that checks option type and action and returns value
-                heading += 1;
+                heading += this.state.listOptions[i].price;
                 listHeadings.push(heading);
             }
 
-            // map values to <th>
             const listElementHeading = listHeadings.map(
                 (headings) => <th>{headings}</th>
             );
@@ -170,15 +192,13 @@ export default class FinancialOptions extends Component
 
         }
 
-        const listElementRow = listRows.map(
+       const listElementRow = listRows.map(
             (rows) => <tr>{rows}</tr>
         );
-*/
+
 
         return (
-            <table>
-                <tbody>{listElementRow}</tbody>
-            </table>
+            <tbody>{listElementRow}</tbody>
         );
     }
 
@@ -216,8 +236,11 @@ export default class FinancialOptions extends Component
                 </div>
 
                 <div id="content-option-payoff-table">
-                    {this.renderTableHeading()}
-                    {this.renderTableBody()}
+                    <p> <strong> Payoff-Table </strong> </p>
+                    <table>
+                        {this.renderTableHeading()}
+                        {this.renderTableBody()}
+                    </table>
                 </div>
             </div>
         );
