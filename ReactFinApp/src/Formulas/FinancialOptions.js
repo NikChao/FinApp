@@ -55,54 +55,35 @@ export default class FinancialOptions extends Component
     renderList()
     {
         // render heading
-        var thead = ["Name", "Type", "Price"];
-        const mappedTableHead = thead.map(
+        var tableHeadElement = ["Name", "Type", "Price"];
+        const mappedTableHead = tableHeadElement.map(
             (heading) => <th>{heading}</th>
         );
 
-        var rows = [];
-        var row = [];
+        var tableBodyElement = [];
         for (var i = 0; i < this.state.listOptions.length; i++) {
+            var row = [];
             row.push(this.state.listOptions[i].name);
             row.push(this.state.listOptions[i].action);
             row.push(this.state.listOptions[i].price);
             const mappedRow = row.map(
-                (column) => <th>{column}</th>
+                (columns) => <th>{columns}</th>
             );
-            rows.push(mappedRow);
+            tableBodyElement.push(mappedRow);
         }
 
-        const mappedTableRow = rows.map(
-            (row) => <tr>{row}</tr>
-        );
-        /*
-        var arrayOptionDescription = [];
-        for (var i = 0; i < this.state.listOptions.length; i++) {
-            var string = "Option Type: " + this.state.listOptions[i].name + " "
-                    "Option Action: " + this.state.listOptions[i].action + " " +
-                    " Option Price: " + this.state.listOptions[i].price;
-            arrayOptionDescription.push(string);
-        }
-        const mappedOptionDescription = arrayOptionDescription.map((description) => <li>{description}</li>);
-        */
+            const mappedTableRows = tableBodyElement.map(
+                (row) => <tr>{row}</tr>
+            );
+
         return (
             <table>
-                <thead>{mappedTableHead}</thead>
-                <tbody>{mappedTableRow}</tbody>
+                <thead> {mappedTableHead} </thead>
+                <tbody> {mappedTableRows} </tbody>
             </table>
 
         );
     }
-
-    /*
-
-            <div>
-                <p> <strong> List of Current Options </strong> </p>
-                <ul>
-                    {mappedOptionDescription}
-                </ul>
-            </div>
-     */
 
     renderTable()
     {
